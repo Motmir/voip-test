@@ -80,7 +80,7 @@ fn main()  -> Result<()> {
         stdout().flush().unwrap();
         stdin().read_line(&mut message).expect("Failed to read line");
 
-        let byte_message: &[u8] = message.trim().as_bytes();
+        let byte_message: &[u8] = message.as_bytes();
         stream.write_all(byte_message)?;
     }
     

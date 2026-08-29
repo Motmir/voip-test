@@ -1,1 +1,1 @@
-/home/motmir/RustProjects/voip-test/target/debug/voip-test: /home/motmir/RustProjects/voip-test/src/main.rs
+/home/motmir/repos/voip-test/target/debug/voip-test: /home/motmir/repos/voip-test/src/main.rs
