@@ -34,9 +34,27 @@ fn main()  -> Result<()> {
     println!("Now listening for connections on port 9999");
 
     let read_handle = thread::spawn(move || -> Result<()> { 
-    
         for stream in listener.incoming() {
-            handle_client_connect(stream?)?;
+            let read_stream: TcpStream = stream?;
+            let mut line: String = String::new();
+            let mut reader: BufReader<TcpStream> = BufReader::new(read_stream);
+            loop {
+                match reader.read_line(&mut line) {
+                    Ok(0) => {
+                        println!("Closed the connection");
+                        break;
+                    }
+                    Ok(_) => {
+                        print!("\nReceived: {}", line);
+                        print!("Message: ");
+                        stdout().flush().unwrap();    
+                    }
+                    Err(e) => {
+                        eprintln!("Read error: {}", e);
+                        break;
+                    }
+                }
+            }
         }
         Ok(())
     });
@@ -71,12 +89,12 @@ fn main()  -> Result<()> {
 }
 
 
-fn handle_client_connect(stream: TcpStream) -> Result<()>{
-    println!("Peer address is {}", stream.peer_addr()?);
+// fn handle_client_connect(stream: TcpStream) -> Result<()>{
+//     println!("Peer address is {}", stream.peer_addr()?);
 
     
-    Ok(())
-}
+//     Ok(())
+// }
 // fn main() {
 //     let args: Vec<String> = env::args().collect();
 //     let mut job: String =  String::new();
