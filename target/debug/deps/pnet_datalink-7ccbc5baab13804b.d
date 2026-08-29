@@ -1,0 +1,10 @@
+/home/motmir/RustProjects/voip-test/target/debug/deps/pnet_datalink-7ccbc5baab13804b.d: /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/lib.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/bindings/mod.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/bindings/linux.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/linux.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/unix_interfaces.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/dummy.rs
+
+/home/motmir/RustProjects/voip-test/target/debug/deps/libpnet_datalink-7ccbc5baab13804b.rmeta: /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/lib.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/bindings/mod.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/bindings/linux.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/linux.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/unix_interfaces.rs /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/dummy.rs
+
+/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/lib.rs:
+/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/bindings/mod.rs:
+/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/bindings/linux.rs:
+/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/linux.rs:
+/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/unix_interfaces.rs:
+/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pnet_datalink-0.35.0/src/dummy.rs:
