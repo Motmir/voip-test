@@ -1,5 +1,6 @@
-use std::io::Result;
-use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait}};
+use std::{any::Any, io::Result, thread, time::Duration};
+use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
+use ringbuf::{HeapRb, traits::*};
 
 
 // struct User {
@@ -12,41 +13,82 @@ use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait}};
 
 fn main() -> Result<()> {
     let host: cpal::Host = cpal::default_host();
-    let output_device: cpal::Device = host.default_output_device().expect("No output device available");
     let input_device: cpal::Device = host.default_input_device().expect("No Input device available");
 
-    let mut supported_config_range: cpal::SupportedOutputConfigs = output_device.supported_output_configs().expect("Error while querying ouput configs");
-    let supported_config: cpal::SupportedStreamConfig = supported_config_range.next().expect("No supported output config").with_max_sample_rate();
-    let ouput_config: StreamConfig = supported_config.into();
+    let input_supported_config = input_device.default_input_config().expect("Error while querying input configs");
+    let input_config: StreamConfig = input_supported_config.into();
+    println!("Input channels: {}", input_config.channels);
 
-    let mut supported_config_range = input_device.supported_input_configs().expect("Error while querying input configs");
-    let supported_config = supported_config_range.next().expect("No supported input config").with_max_sample_rate();
-    let input_config: StreamConfig = supported_config.into();
+    // Make an array that is 4 sec long of 48000hz audio and split it so that one can push and one cat pop
+    let rb = HeapRb::<i16>::new(48000 * 8);
+    let (mut producer, mut consumer) = rb.split();
 
-    let output_stream: std::prelude::v1::Result<cpal::Stream, cpal::Error> = output_device.build_output_stream(
-        ouput_config, 
-        move |data: &mut [f32], _: &cpal::OutputCallbackInfo| {
-            // React to stream events and read or write stream data here
-        }, 
-        move |err| {
-            // React to errors
-        }, 
-        None 
-        // Timeout for stream initialization: None = wait indefinitively. Some(Duration) = time to wait for the backend
-    );
-
-    let input_stream: std::prelude::v1::Result<cpal::Stream, cpal::Error> = input_device.build_input_stream(
+    println!("Listening for three seconds");
+    let input_stream = input_device.build_input_stream(
         input_config, 
-        move |data: &[f32], _: &cpal::InputCallbackInfo| {
+        move |data: &[i16], _: &cpal::InputCallbackInfo| {
             // Read stream input audio
+            for &value in data {
+                producer.try_push(value).unwrap();
+            }
+
         }, 
         move|err|{
             // React to errors
+            eprintln!("Input stream error: {}", err);
         }, 
         None 
         // Timeout for stream initialization: None = wait indefinitively. Some(Duration) = time to wait for the backend
-    );
+    ).expect("Failed to unwrap the input stream");
 
+    input_stream.play().expect("Failed to start recording input audio");
+
+    // Make the main thread wait for 3 sec before we playback the audio.
+    thread::sleep(Duration::from_secs(3));
+
+    // Stop recording more input
+    drop(input_stream);
+    
+    println!("Stopped recording, playback in 1 sec");
+    thread::sleep(Duration::from_secs(1));
+
+    println!("Playing back");
+    
+    let output_device: cpal::Device = host.default_output_device().expect("No output device available");
+    let output_supported_config = output_device.default_output_config().expect("Error while querying output configs");
+    let output_config: StreamConfig = output_supported_config.into();
+    println!("Output channels: {}", output_config.channels);
+
+
+    let output_channels = output_config.channels as usize;
+
+    let output_stream = output_device.build_output_stream(
+        output_config, 
+        move |data: &mut [i16], _: &cpal::OutputCallbackInfo| {
+            // React to stream events and read or write stream data here
+            for frame in data.chunks_mut(output_channels) {
+                let l = consumer.try_pop().unwrap_or(0) as i32;
+                let r = consumer.try_pop().unwrap_or(0) as i32;
+                let mixed = ((l + r) / 2) as i16;
+
+                for channel_sample in frame.iter_mut() {
+                    *channel_sample = mixed;
+                }
+            }
+
+        }, 
+        move |err| {
+            // React to errors
+            eprintln!("Output stream error: {}", err);
+        }, 
+        None 
+        // Timeout for stream initialization: None = wait indefinitively. Some(Duration) = time to wait for the backend
+    ).expect("Failed to unwrap the output stream");
+
+    output_stream.play().expect("Failed to playback the audio");
+
+    thread::sleep(Duration::from_secs(4));
+    drop(output_stream);
     Ok(())
 }
 
