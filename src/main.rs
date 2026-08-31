@@ -1,4 +1,4 @@
-use std::{any::Any, io::Result, thread, time::Duration};
+use std::{io::Result, thread, time::Duration};
 use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 
