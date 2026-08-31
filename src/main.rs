@@ -46,7 +46,6 @@ fn main()  -> Result<()> {
                     }
                     Ok(_) => {
                         print!("\nReceived: {}", line);
-                        print!("Message: ");
                         stdout().flush().unwrap();    
                     }
                     Err(e) => {
@@ -61,12 +60,14 @@ fn main()  -> Result<()> {
     
     /* This should be for connecting to others */
     println!("What ip do you want to speak to?");
-    print!("Format = \"<IP>:<PORT>\": ");
+    print!("Input target IP: ");
     stdout().flush().unwrap();
 
     let mut target_ip: String = String::new();
     stdin().read_line(&mut target_ip).expect("Failed to read line");
-    let target_ip = target_ip.trim();
+    let tmp_ip = target_ip.trim();
+    target_ip = format!("{}:9999", tmp_ip);
+    let target_ip: &str = &target_ip;
 
     println!("Trying to connect to {}", target_ip);
     let mut stream = TcpStream::connect(target_ip)?;
