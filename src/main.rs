@@ -17,13 +17,12 @@ fn main() -> Result<()> {
 
     let input_supported_config = input_device.default_input_config().expect("Error while querying input configs");
     let input_config: StreamConfig = input_supported_config.into();
-    println!("Input channels: {}", input_config.channels);
 
     // Make an array that is 4 sec long of 48000hz audio and split it so that one can push and one cat pop
     let rb = HeapRb::<i16>::new(48000 * 8);
     let (mut producer, mut consumer) = rb.split();
 
-    println!("Listening for three seconds");
+    println!("You can now speak to yourself for 10 sec");
     let input_stream = input_device.build_input_stream(
         input_config, 
         move |data: &[i16], _: &cpal::InputCallbackInfo| {
@@ -43,21 +42,10 @@ fn main() -> Result<()> {
 
     input_stream.play().expect("Failed to start recording input audio");
 
-    // Make the main thread wait for 3 sec before we playback the audio.
-    thread::sleep(Duration::from_secs(3));
-
-    // Stop recording more input
-    drop(input_stream);
-    
-    println!("Stopped recording, playback in 1 sec");
-    thread::sleep(Duration::from_secs(1));
-
-    println!("Playing back");
-    
+        
     let output_device: cpal::Device = host.default_output_device().expect("No output device available");
     let output_supported_config = output_device.default_output_config().expect("Error while querying output configs");
     let output_config: StreamConfig = output_supported_config.into();
-    println!("Output channels: {}", output_config.channels);
 
 
     let output_channels = output_config.channels as usize;
@@ -87,7 +75,7 @@ fn main() -> Result<()> {
 
     output_stream.play().expect("Failed to playback the audio");
 
-    thread::sleep(Duration::from_secs(4));
+    thread::sleep(Duration::from_secs(10));
     drop(output_stream);
     Ok(())
 }
