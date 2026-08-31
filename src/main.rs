@@ -1,93 +1,142 @@
-use std::net::{IpAddr, TcpListener, TcpStream};
-use std::io::{Read, Result, Write, stdin, stdout, BufRead, BufReader};
-use std::{env, result};
-use std::thread;
-use local_ip_address::local_ip;
+use std::io::Result;
+use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait}};
 
 
-struct User {
-    username: String,
-    ip: String,
-}
+// struct User {
+//     username: String,
+//     ip: String,
+// }
 
 
-fn main()  -> Result<()> {
-    print!("Choose a username: ");
-    stdout().flush().unwrap();  
 
-    let mut input: String = String::new();
-    stdin().read_line(&mut input).expect("Failed to read line");
 
-    println!("Chosen username is \"{}\"", input);
-    let user_ip = match local_ip() {
-        Ok(ip) => Some(ip),
-        Err(err) => {
-            eprintln!("Error getting local IP: {:?}", err);
-            None
-        }
-    };
-    println!("Local ip is {:?}",user_ip);
+fn main() -> Result<()> {
+    let host: cpal::Host = cpal::default_host();
+    let output_device: cpal::Device = host.default_output_device().expect("No output device available");
+    let input_device: cpal::Device = host.default_input_device().expect("No Input device available");
 
-    /* This is handling listening for incomming connections and calling handle_client_connect for them */
-    let addr: &str = "0.0.0.0:9999";
-    let listener: TcpListener = TcpListener::bind(addr)?;
-    println!("Now listening for connections on port 9999");
+    let mut supported_config_range: cpal::SupportedOutputConfigs = output_device.supported_output_configs().expect("Error while querying ouput configs");
+    let supported_config: cpal::SupportedStreamConfig = supported_config_range.next().expect("No supported output config").with_max_sample_rate();
+    let ouput_config: StreamConfig = supported_config.into();
 
-    let read_handle = thread::spawn(move || -> Result<()> { 
-        for stream in listener.incoming() {
-            let read_stream: TcpStream = stream?;
-            let mut line: String = String::new();
-            let mut reader: BufReader<TcpStream> = BufReader::new(read_stream);
-            loop {
-                match reader.read_line(&mut line) {
-                    Ok(0) => {
-                        println!("Closed the connection");
-                        break;
-                    }
-                    Ok(_) => {
-                        print!("\nReceived: {}", line);
-                        stdout().flush().unwrap();    
-                    }
-                    Err(e) => {
-                        eprintln!("Read error: {}", e);
-                        break;
-                    }
-                }
-            }
-        }
-        Ok(())
-    });
-    
-    /* This should be for connecting to others */
-    println!("What ip do you want to speak to?");
-    print!("Input target IP: ");
-    stdout().flush().unwrap();
+    let mut supported_config_range = input_device.supported_input_configs().expect("Error while querying input configs");
+    let supported_config = supported_config_range.next().expect("No supported input config").with_max_sample_rate();
+    let input_config: StreamConfig = supported_config.into();
 
-    let mut target_ip: String = String::new();
-    stdin().read_line(&mut target_ip).expect("Failed to read line");
-    let tmp_ip = target_ip.trim();
-    target_ip = format!("{}:9999", tmp_ip);
-    let target_ip: &str = &target_ip;
+    let output_stream: std::prelude::v1::Result<cpal::Stream, cpal::Error> = output_device.build_output_stream(
+        ouput_config, 
+        move |data: &mut [f32], _: &cpal::OutputCallbackInfo| {
+            // React to stream events and read or write stream data here
+        }, 
+        move |err| {
+            // React to errors
+        }, 
+        None 
+        // Timeout for stream initialization: None = wait indefinitively. Some(Duration) = time to wait for the backend
+    );
 
-    println!("Trying to connect to {}", target_ip);
-    let mut stream = TcpStream::connect(target_ip)?;
-    println!("Type \"q\" or \"quit\" to stop sending messages");
+    let input_stream: std::prelude::v1::Result<cpal::Stream, cpal::Error> = input_device.build_input_stream(
+        input_config, 
+        move |data: &[f32], _: &cpal::InputCallbackInfo| {
+            // Read stream input audio
+        }, 
+        move|err|{
+            // React to errors
+        }, 
+        None 
+        // Timeout for stream initialization: None = wait indefinitively. Some(Duration) = time to wait for the backend
+    );
 
-    let mut message: String = String::new();
-
-    while !message.trim().eq_ignore_ascii_case("quit") && !message.trim().eq_ignore_ascii_case("q") {
-        message.clear();
-        print!("Message: ");
-        stdout().flush().unwrap();
-        stdin().read_line(&mut message).expect("Failed to read line");
-
-        let byte_message: &[u8] = message.as_bytes();
-        stream.write_all(byte_message)?;
-    }
-    
-    let _ = read_handle.join();
     Ok(())
 }
+
+
+
+
+
+
+
+
+
+
+// fn main()  -> Result<()> {
+//     print!("Choose a username: ");
+//     stdout().flush().unwrap();  
+
+//     let mut input: String = String::new();
+//     stdin().read_line(&mut input).expect("Failed to read line");
+
+//     println!("Chosen username is \"{}\"", input);
+//     let user_ip = match local_ip() {
+//         Ok(ip) => Some(ip),
+//         Err(err) => {
+//             eprintln!("Error getting local IP: {:?}", err);
+//             None
+//         }
+//     };
+//     println!("Local ip is {:?}",user_ip);
+
+//     /* This is handling listening for incomming connections and calling handle_client_connect for them */
+//     let addr: &str = "0.0.0.0:9999";
+//     let listener: TcpListener = TcpListener::bind(addr)?;
+//     println!("Now listening for connections on port 9999");
+
+//     let read_handle = thread::spawn(move || -> Result<()> { 
+//         for stream in listener.incoming() {
+//             let read_stream: TcpStream = stream?;
+//             let mut line: String = String::new();
+//             let mut reader: BufReader<TcpStream> = BufReader::new(read_stream);
+//             loop {
+//                 match reader.read_line(&mut line) {
+//                     Ok(0) => {
+//                         println!("Closed the connection");
+//                         break;
+//                     }
+//                     Ok(_) => {
+//                         print!("\nReceived: {}", line);
+//                         print!("Message: ");
+//                         stdout().flush().unwrap();    
+//                     }
+//                     Err(e) => {
+//                         eprintln!("Read error: {}", e);
+//                         break;
+//                     }
+//                 }
+//             }
+//         }
+//         Ok(())
+//     });
+    
+//     /* This should be for connecting to others */
+//     println!("What ip do you want to speak to?");
+//     print!("Input target IP: ");
+//     stdout().flush().unwrap();
+
+//     let mut target_ip: String = String::new();
+//     stdin().read_line(&mut target_ip).expect("Failed to read line");
+//     let tmp_ip = target_ip.trim();
+//     target_ip = format!("{}:9999", tmp_ip);
+//     let target_ip: &str = &target_ip;
+
+//     println!("Trying to connect to {}", target_ip);
+//     let mut stream = TcpStream::connect(target_ip)?;
+//     println!("Type \"q\" or \"quit\" to stop sending messages");
+
+//     let mut message: String = String::new();
+
+//     while !message.trim().eq_ignore_ascii_case("quit") && !message.trim().eq_ignore_ascii_case("q") {
+//         message.clear();
+//         print!("Message: ");
+//         stdout().flush().unwrap();
+//         stdin().read_line(&mut message).expect("Failed to read line");
+
+//         let byte_message: &[u8] = message.as_bytes();
+//         stream.write_all(byte_message)?;
+//     }
+    
+//     let _ = read_handle.join();
+//     Ok(())
+// }
 
 
 // fn handle_client_connect(stream: TcpStream) -> Result<()>{
