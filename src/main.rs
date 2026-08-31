@@ -3,13 +3,7 @@ use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 
 
-// struct User {
-//     username: String,
-//     ip: String,
-// }
-
-
-fn get_local_ip() -> Result<(IpAddr)> {
+fn get_local_ip() -> Result<IpAddr> {
 
     let socket = UdpSocket::bind("0.0.0.0:0")?;
     socket.connect("8.8.8.8:80")?;
@@ -78,7 +72,6 @@ fn run_server() -> Result<()> {
     println!("This machine has started listening for UDP connections on: {}", addr);
     socket.set_nonblocking(true)?;
 
-    let mut udp_producer = producer;
     thread::spawn(move || {
         let mut buf = [0u8; 1960];
 
@@ -92,7 +85,7 @@ fn run_server() -> Result<()> {
                         let b1 = buf[index * 2 + 1];
                         let sample = i16::from_le_bytes([b0, b1]);
 
-                        let _ = udp_producer.try_push(sample);
+                        let _ = producer.try_push(sample);
 
                         println!("Received '{}' bytes from'{}'", len, src);
                     }
@@ -107,25 +100,14 @@ fn run_server() -> Result<()> {
         }
     });
 
+    loop {
+        thread::sleep(Duration::from_secs(1));
+    }
+
     Ok(())
 }
 
-fn main() -> Result<()> {
-    let args: Vec<String> = env::args().collect();
-    let mut job: String =  String::new();
-
-    if args.len() == 1 {
-        job = args[1].to_lowercase();
-    } else {
-        print_help();
-    }
-
-    if job == "-h" || job == "help" {
-        print_help();
-    } else if job == "server" {
-        if let Err(e) = run_server() { eprintln!("Server error: {}", e); }
-    }
-
+fn run_client() -> Result<()> {
     let local_ip = match get_local_ip() {
         Ok(ip) => Some(ip),
         Err(err) => {
@@ -144,47 +126,24 @@ fn main() -> Result<()> {
     let input_supported_config = input_device.default_input_config().expect("Error while querying input configs");
     let input_config: StreamConfig = input_supported_config.into();
 
+    let addr: &str = "0.0.0.0:0";
+    let socket = UdpSocket::bind(addr)?;
+    socket.set_nonblocking(true)?;
     
 
     const BYTES_PER_SAMPLE: usize = 2;
     const TARGET_BYTES: usize = 1960;
     const TARGET_SAMPLES: usize = TARGET_BYTES / BYTES_PER_SAMPLE;
 
+    let ring_buffer = HeapRb::<i16>::new(48000 * 2);
+    let (mut producer, mut consumer) = ring_buffer.split();
 
     let input_stream = input_device.build_input_stream(
         input_config,
-        {
-            // Make an array that is 4 sec long of 48000hz * 2 channels audio and split it so that one can push and one cat pop
-            let mut sound_array: Vec<i16> = Vec::new();
-            let addr: &str = "0.0.0.0:9999";
-            let socket = UdpSocket::bind(addr)?;
-
-                let mut target_ip = String::new();
-                println!("What is the ip of the host you want to connect to?");
-                stdin().read_line(&mut target_ip).expect("Failed to read line");
-                let tmp_ip = target_ip.trim();
-                target_ip = format!("{}:9999", tmp_ip);
-                let target_addr: SocketAddr = target_ip.parse().expect("Failed to parse target address");
-                println!("Ready to send to: {}", target_ip);
-
-            move |data: &[i16], _: &cpal::InputCallbackInfo| {
-                // Read stream input audio
-                for &value in data {
-                    sound_array.push(value);
-                }
-
-                // Check if there is more than 0.2ms of sound data to transfer
-                if sound_array.len() >= TARGET_SAMPLES {
-                    let samples = &sound_array[0..TARGET_SAMPLES];
-                    let mut buf = [0u8; TARGET_BYTES];
-                    for (index, sample) in samples.iter().enumerate() {
-                        let byte = sample.to_le_bytes();
-                        buf[index * 2] = byte[0];
-                        buf[index * 2 + 1] = byte[1];
-                    }
-
-                    socket.send_to(&buf, target_addr).expect("Could not send udp");
-                }
+        move |data: &[i16], _: &cpal::InputCallbackInfo| {
+            // Read stream input audio
+            for &value in data {
+                let _ = producer.try_push(value);
             }
         }, 
         move|err|{
@@ -195,7 +154,67 @@ fn main() -> Result<()> {
         // Timeout for stream initialization: None = wait indefinitively. Some(Duration) = time to wait for the backend
     ).expect("Failed to unwrap the input stream");
 
+
+
+    thread::spawn(move || {
+        // Make an array that is 4 sec long of 48000hz * 2 channels audio and split it so that one can push and one cat pop
+        let mut chunk: Vec<i16> = Vec::with_capacity(TARGET_SAMPLES);
+
+        let mut target_ip = String::new();
+        println!("What is the ip of the host you want to connect to?");
+        stdin().read_line(&mut target_ip).expect("Failed to read line");
+        let tmp_ip = target_ip.trim();
+        target_ip = format!("{}:9999", tmp_ip);
+        let target_addr: SocketAddr = target_ip.parse().expect("Failed to parse target address");
+        println!("Ready to send to: {}", target_ip);
+        loop {
+            while chunk.len() < TARGET_SAMPLES {
+                match consumer.try_pop() {
+                    Some(sample) => chunk.push(sample),
+                    None => thread::sleep(Duration::from_millis(1))
+                }
+            }
+
+            let mut buf = [0u8; TARGET_BYTES];
+            for (index, sample) in chunk.iter().enumerate() {
+                let byte = sample.to_le_bytes();
+                buf[index * 2] = byte[0];
+                buf[index * 2 + 1] = byte[1];
+            }
+
+            if let Err(e) = socket.send_to(&buf, target_addr) {
+                eprintln!("Send error: {}", e);
+            }
+
+            chunk.clear();
+        }
+    });
+
     input_stream.play().unwrap();
+    loop {
+        thread::sleep(Duration::from_secs(1));
+    }
+
+    Ok(())
+}
+
+fn main() -> Result<()> {
+    let args: Vec<String> = env::args().collect();
+    let mut job: String =  String::new();
+
+    if args.len() == 2 {
+        job = args[1].to_lowercase();
+    } else {
+        print_help();
+    }
+
+    if job == "-h" || job == "help" {
+        print_help();
+    } else if job == "server" {
+        if let Err(e) = run_server() { eprintln!("Server error: {}", e); }
+    } else if job == "client" {
+        if let Err(e) = run_client() { eprintln!("Client error: {}", e); }
+    }
 
     Ok(())
 }
