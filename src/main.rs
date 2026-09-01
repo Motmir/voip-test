@@ -1,31 +1,44 @@
 use std::{env, io::{Result, stdin}, net::{IpAddr, SocketAddr, UdpSocket}, thread, time::Duration};
 use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
+use opus::{Application, Channels, Encoder, Decoder};
+
+const DEFAULT_PORT: u16 = 9999;
+const MAX_PACKET_PAYLOAD_SIZE: usize = 960;
+const SEQ_SIZE: usize = 2;
+const TIMESTAMP_SIZE: usize = 4;
+const PACKET_TOTAL_SIZE: usize =  SEQ_SIZE + TIMESTAMP_SIZE + MAX_PACKET_PAYLOAD_SIZE;
+const SAMPLE_RATE: usize = 48000;
+const CHANNELS_COUNT: usize = 2;
+const BYTES_PER_SAMPLE: usize = 2;
 
 struct Packet {
     seq: u16,
     timestamp: u32,
-    bytes: [u8; 1300]
+    payload_len: u16,
+    bytes: [u8; MAX_PACKET_PAYLOAD_SIZE]
 }
 
 impl Packet {
     fn to_bytes(&self) -> Vec<u8> {
         let mut buf = Vec::with_capacity(2 + self.bytes.len());
-        buf.extend_from_slice(&self.seq.to_le_bytes()); // 2 bytes
-        buf.extend_from_slice(&self.timestamp.to_le_bytes()); // 4 bytes
-        buf.extend_from_slice(&self.bytes);              // 1300 bytes
+        buf.extend_from_slice(&self.seq.to_le_bytes());
+        buf.extend_from_slice(&self.timestamp.to_le_bytes());
+        buf.extend_from_slice(&self.payload_len.to_le_bytes());
+        buf.extend_from_slice(&self.bytes[..self.payload_len as usize]); // only real data, no padding
         buf
     }
 
     fn from_bytes(data: &[u8]) -> Option<Packet> {
-        if data.len() != 2 + 1300 {
-            return None; // malformed/truncated packet
-        }
+        if data.len() < 8 { return None; }
         let seq = u16::from_le_bytes([data[0], data[1]]);
         let timestamp = u32::from_le_bytes([data[2], data[3], data[4], data[5]]);
-        let mut bytes = [0u8; 1300];
-        bytes.copy_from_slice(&data[6..6 + 1300]);
-        Some(Packet { seq, timestamp, bytes })
+        let payload_len = u16::from_le_bytes([data[6], data[7]]);
+        if data.len() != 8 + payload_len as usize { return None; } // The package has incorrect length
+
+        let mut bytes = [0u8; MAX_PACKET_PAYLOAD_SIZE];
+        bytes[..payload_len as usize].copy_from_slice(&data[8..]);
+        Some(Packet { seq, timestamp, payload_len, bytes })
     }
 }
 
@@ -54,12 +67,9 @@ fn run_server() -> Result<()> {
 
     let output_channels = output_config.channels as usize;
 
-    // Make a buffer that can hold 60 Packets so we can reorder them before pushing them to audio that will be played out
     let mut jitter_arr: Vec<Packet> = Vec::new();
 
-
-    // Make ring_buffer that can hold 1 sec of 48kHz with 2 channels
-    let ring_buffer = HeapRb::<i16>::new(48000 * 2);
+    let ring_buffer = HeapRb::<i16>::new(SAMPLE_RATE * CHANNELS_COUNT);
     let (mut producer, mut consumer) = ring_buffer.split();
 
     let output_stream = output_device.build_output_stream(
@@ -99,44 +109,48 @@ fn run_server() -> Result<()> {
     println!("Your local ip is {}",local_ip);
 
 
-    let addr: &str = "0.0.0.0:9999";
-    let socket = UdpSocket::bind(addr)?;
+    let addr = format!("0.0.0.0:{}", DEFAULT_PORT);
+    let socket = UdpSocket::bind(&addr)?;
     println!("This machine has started listening for UDP connections on: {}", addr);
     socket.set_nonblocking(true)?;
 
     thread::spawn(move || {
-        let mut buf = [0u8; 1300];
+        let mut buf = [0u8; PACKET_TOTAL_SIZE];
+
+        let channels = Channels::Stereo;
+        let mut decoder = Decoder::new(SAMPLE_RATE as u32, channels).expect("Failed to init decoder");
 
         loop {
             match socket.recv_from(&mut buf) {
                 Ok((len, src)) => {
-                    
+
                     println!("Received '{}' bytes from'{}'", len, src);
-                    let packet: Packet = Packet::from_bytes(&buf).expect("Could not get packet form received buffer");
+                    let packet: Packet = Packet::from_bytes(&buf[..len]).expect("Could not get packet form received buffer");
                     
-                    if jitter_arr.len() == 60 {
+                    if jitter_arr.len() >= 60 {
                         // Jitter array is full so we have to add some more sound to the output
-                        let out_pac = jitter_arr.pop().expect("Could not get first packet from jitter_arr");
-                                            let samples_count = len / 2;
+                        let out_pac = jitter_arr.remove(0);
 
-                        for index in 0..samples_count {
-                            let b0 = out_pac.bytes[index * 2];
-                            let b1 = out_pac.bytes[index * 2 + 1];
-                            let sample = i16::from_le_bytes([b0, b1]);
-
-                            let _ = producer.try_push(sample);
-
+                        let mut decoded_buf = vec![0i16; MAX_PACKET_PAYLOAD_SIZE];
+                        match decoder.decode(&out_pac.bytes[..out_pac.payload_len as usize], &mut decoded_buf, false) {
+                            Ok(decoded_samples) => {
+                                let sample_count = decoded_samples * CHANNELS_COUNT;
+                                for &sample in &decoded_buf[..sample_count] {
+                                    let _ = producer.try_push(sample);
+                                }
+                            }
+                            Err(e) => {
+                                eprintln!("Opus decode failed for seq {}, dropping: {}", out_pac.seq, e);
+                                // Add pushing silence here
+                            }
                         }
                     }
 
-                    let mut i = 0;
-                    for p  in jitter_arr.iter() {
-                        if packet.seq < p.seq {
-                            jitter_arr.insert(i, packet);
-                            break;
-                        } else {
-                            i += 1;
-                        }
+                    let insert_pos = jitter_arr.iter().position(|p| packet.seq < p.seq);
+
+                    match insert_pos {
+                        Some(index) => jitter_arr.insert(index, packet),
+                        None => jitter_arr.push(packet)
                     }
                 }
                 Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
@@ -179,12 +193,10 @@ fn run_client() -> Result<()> {
     let socket = UdpSocket::bind(addr)?;
     socket.set_nonblocking(true)?;
     
+    const TARGET_SAMPLES: usize = MAX_PACKET_PAYLOAD_SIZE / BYTES_PER_SAMPLE;
 
-    const BYTES_PER_SAMPLE: usize = 2;
-    const TARGET_BYTES: usize = 1300;
-    const TARGET_SAMPLES: usize = TARGET_BYTES / BYTES_PER_SAMPLE;
 
-    let ring_buffer = HeapRb::<i16>::new(48000 * 2);
+    let ring_buffer = HeapRb::<i16>::new(SAMPLE_RATE * CHANNELS_COUNT);
     let (mut producer, mut consumer) = ring_buffer.split();
 
     let input_stream = input_device.build_input_stream(
@@ -213,43 +225,54 @@ fn run_client() -> Result<()> {
         println!("What is the ip of the host you want to connect to?");
         stdin().read_line(&mut target_ip).expect("Failed to read line");
         let tmp_ip = target_ip.trim();
-        target_ip = format!("{}:9999", tmp_ip);
+        target_ip = format!("{}:{}", tmp_ip, DEFAULT_PORT);
         let target_addr: SocketAddr = target_ip.parse().expect("Failed to parse target address");
         println!("Ready to send to: {}", target_ip);
 
+        let channels = input_config.channels as usize;
+        let frames_per_packet = (TARGET_SAMPLES / channels) as u32;
+
         let mut sequencer: u16 = 0;
         let mut timer: u32 = 0;
+
+        let channels = Channels::Stereo;
+        let application = Application::Audio;
+
+        let mut encoder = Encoder::new(SAMPLE_RATE as u32, channels, application).expect("Could not init encoder");
 
         loop {
             while chunk.len() < TARGET_SAMPLES {
                 match consumer.try_pop() {
                     Some(sample) => {
-                        timer += 1;
                         chunk.push(sample)
                     },
                     None => thread::sleep(Duration::from_millis(1))
                 }
             }
 
-            let mut buf = [0u8; TARGET_BYTES];
-            for (index, sample) in chunk.iter().enumerate() {
-                let byte = sample.to_le_bytes();
-                buf[index * 2] = byte[0];
-                buf[index * 2 + 1] = byte[1];
+            let mut encoded_buf = [0u8; MAX_PACKET_PAYLOAD_SIZE];
+            match encoder.encode(&chunk, &mut encoded_buf) {
+                Ok(encoded_len) => {
+                    let packet = Packet {
+                    seq: sequencer,
+                    timestamp: timer,
+                    payload_len: encoded_len as u16,
+                    bytes: encoded_buf
+                    };
+
+                    if let Err(e) = socket.send_to(&packet.to_bytes(), target_addr) {
+                        eprintln!("Send error: {}", e);
+                    }
+
+                    // We've now sent another packet
+                    sequencer += 1;
+                    timer += frames_per_packet;
+                }
+                Err(e) => {
+                    eprintln!("Opus encode failed, dropping this frame: {}", e);
+                }
             }
 
-            let packet = Packet {
-                seq: sequencer,
-                timestamp: timer,
-                bytes: buf
-            };
-
-            if let Err(e) = socket.send_to(&packet.to_bytes(), target_addr) {
-                eprintln!("Send error: {}", e);
-            }
-
-            // We've noe sent another packet
-            sequencer += 1;
             chunk.clear();
         }
     });
@@ -282,249 +305,3 @@ fn main() -> Result<()> {
 
     Ok(())
 }
-
-
-
-
-
-
-
-
-
-
-// fn main()  -> Result<()> {
-//     print!("Choose a username: ");
-//     stdout().flush().unwrap();  
-
-//     let mut input: String = String::new();
-//     stdin().read_line(&mut input).expect("Failed to read line");
-
-//     println!("Chosen username is \"{}\"", input);
-//     let user_ip = match local_ip() {
-//         Ok(ip) => Some(ip),
-//         Err(err) => {
-//             eprintln!("Error getting local IP: {:?}", err);
-//             None
-//         }
-//     };
-//     println!("Local ip is {:?}",user_ip);
-
-//     /* This is handling listening for incomming connections and calling handle_client_connect for them */
-//     let addr: &str = "0.0.0.0:9999";
-//     let listener: TcpListener = TcpListener::bind(addr)?;
-//     println!("Now listening for connections on port 9999");
-
-//     let read_handle = thread::spawn(move || -> Result<()> { 
-//         for stream in listener.incoming() {
-//             let read_stream: TcpStream = stream?;
-//             let mut line: String = String::new();
-//             let mut reader: BufReader<TcpStream> = BufReader::new(read_stream);
-//             loop {
-//                 match reader.read_line(&mut line) {
-//                     Ok(0) => {
-//                         println!("Closed the connection");
-//                         break;
-//                     }
-//                     Ok(_) => {
-//                         print!("\nReceived: {}", line);
-//                         print!("Message: ");
-//                         stdout().flush().unwrap();    
-//                     }
-//                     Err(e) => {
-//                         eprintln!("Read error: {}", e);
-//                         break;
-//                     }
-//                 }
-//             }
-//         }
-//         Ok(())
-//     });
-    
-//     /* This should be for connecting to others */
-//     println!("What ip do you want to speak to?");
-//     print!("Input target IP: ");
-//     stdout().flush().unwrap();
-
-//     let mut target_ip: String = String::new();
-//     stdin().read_line(&mut target_ip).expect("Failed to read line");
-//     let tmp_ip = target_ip.trim();
-//     target_ip = format!("{}:9999", tmp_ip);
-//     let target_ip: &str = &target_ip;
-
-//     println!("Trying to connect to {}", target_ip);
-//     let mut stream = TcpStream::connect(target_ip)?;
-//     println!("Type \"q\" or \"quit\" to stop sending messages");
-
-//     let mut message: String = String::new();
-
-//     while !message.trim().eq_ignore_ascii_case("quit") && !message.trim().eq_ignore_ascii_case("q") {
-//         message.clear();
-//         print!("Message: ");
-//         stdout().flush().unwrap();
-//         stdin().read_line(&mut message).expect("Failed to read line");
-
-//         let byte_message: &[u8] = message.as_bytes();
-//         stream.write_all(byte_message)?;
-//     }
-    
-//     let _ = read_handle.join();
-//     Ok(())
-// }
-
-
-// fn handle_client_connect(stream: TcpStream) -> Result<()>{
-//     println!("Peer address is {}", stream.peer_addr()?);
-
-    
-//     Ok(())
-// }
-// fn main() {
-//     let args: Vec<String> = env::args().collect();
-//     let mut job: String =  String::new();
-
-//     if args.len() > 1 {
-//         job = args[1].to_lowercase();
-//     } else {
-//         print_help();
-//     }
-
-//     if job == "-h" || job == "help" {
-//         print_help();
-//     } else if job == "client" {
-//         if let Err(e) = run_client() { eprintln!("Client error: {}", e); }
-//     } else if job == "server" {
-//         if let Err(e) = run_server() { eprintln!("Server error: {}", e); }
-//     }
-// }
-
-// fn print_help() {
-//     println!("#----------------------------------------------#");
-//     println!("Please provide if you are a client or server");
-//     println!("#----------------------------------------------#");
-// }
-
-// /* SERVER SIDE LOGIC */
-
-// fn run_server() -> Result<()> {
-//     println!("I am a server");
-//     let addr: &str = "0.0.0.0:9999";
-    
-//     let listener = TcpListener::bind(addr)?;
-//     println!("Listening to {}", addr);
-
-//     for stream in listener.incoming() {
-//         handle_client_connect(stream?)?;
-//     }
-
-//     Ok(())
-// }
-
-
-// fn handle_client_connect(mut stream: TcpStream)  -> Result<()> {
-//     let read_stream: TcpStream = stream.try_clone()?;
-//     let mut write_stream: TcpStream = stream;
-
-//     let read_handle = thread::spawn(move || {
-//         let mut reader: BufReader<TcpStream> = BufReader::new(read_stream);
-//         loop {
-//             let mut line: String = String::new();
-//             match reader.read_line(&mut line) {
-//                 Ok(0) => {
-//                     println!("Closed the connection");
-//                     break;
-//                 }
-//                 Ok(_) => {
-//                     print!("\nReceived: {}", line);
-//                     print!("Message: ");
-//                     stdout().flush().unwrap();    
-//                 }
-//                 Err(e) => {
-//                     eprintln!("Read error: {}", e);
-//                     break;
-//                 }
-//             }
-//         }
-//     });
-
-//     loop {
-//         print!("Message: ");
-//         stdout().flush().unwrap();
-
-//         let mut message = String::new();
-//         stdin().read_line(&mut message).expect("Failed to read line");
-//         let trimmed = message.trim();
-
-//         if trimmed.eq_ignore_ascii_case("quit") || trimmed.eq_ignore_ascii_case("q") {
-//             break;
-//         }
-
-//         write_stream.write_all(format!("{}\n", trimmed).as_bytes())?;
-//     }
-    
-//     let _ = read_handle.join();
-//     Ok(())
-// }
-
-// /* CLIENT SIDE LOGIC */
-
-// fn run_client()  -> Result<()> {
-//     println!("I am a client");
-
-//     println!("What ip do you want to speak to?");
-//     print!("Format = \"<IP>:<PORT>\": ");
-//     stdout().flush().unwrap();
-
-//     let mut target_ip: String = String::new();
-//     stdin().read_line(&mut target_ip).expect("Failed to read line");
-//     let target_ip = target_ip.trim();
-
-//     println!("Trying to connect to {}", target_ip);
-//     let mut stream = TcpStream::connect(target_ip)?;
-//     println!("Type \"q\" or \"quit\" to stop sending messages");
-
-//     let mut message: String = String::new();
-
-//     while !message.trim().eq_ignore_ascii_case("quit") && !message.trim().eq_ignore_ascii_case("q") {
-//         message.clear();
-//         print!("Message: ");
-//         stdout().flush().unwrap();
-//         stdin().read_line(&mut message).expect("Failed to read line");
-
-//         let byte_message: &[u8] = message.trim().as_bytes();
-//         stream.write_all(byte_message)?;
-//     }
-    
-//     Ok(())
-// }
-
-
-    
-
-
-// fn main() {
-//     // Connect to this computers interface
-
-//     let interfaces: Vec<datalink::NetworkInterface> = datalink::interfaces();
-//     let interface = interfaces.into_iter().find(|iface| !iface.is_loopback()).expect("No non-loopback interface found");
-//     println!("Since {} is not loopback we will use this interface", interface);
-
-// }
-
-
-// struct Client {
-//     name: String,
-//     ip: String,
-// }
-
-// fn main() {
-//     //let mut clients: Vec<Client> = Vec::new();
-
-    
-//     print!("What is your name: ");
-//     io::stdout().flush().unwrap();
-//     let mut input = String::new();
-//     io::stdin().read_line(&mut input).expect("Failed to read line");
-
-//     let trimmed = input.trim();
-//     println!("nice to meet you {}", trimmed);
-// }
