@@ -2,6 +2,33 @@ use std::{env, io::{Result, stdin}, net::{IpAddr, SocketAddr, UdpSocket}, thread
 use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 
+struct Packet {
+    seq: u16,
+    timestamp: u32,
+    bytes: [u8; 1300]
+}
+
+impl Packet {
+    fn to_bytes(&self) -> Vec<u8> {
+        let mut buf = Vec::with_capacity(2 + self.bytes.len());
+        buf.extend_from_slice(&self.seq.to_le_bytes()); // 2 bytes
+        buf.extend_from_slice(&self.timestamp.to_le_bytes()); // 4 bytes
+        buf.extend_from_slice(&self.bytes);              // 1300 bytes
+        buf
+    }
+
+    fn from_bytes(data: &[u8]) -> Option<Packet> {
+        if data.len() != 2 + 1300 {
+            return None; // malformed/truncated packet
+        }
+        let seq = u16::from_le_bytes([data[0], data[1]]);
+        let timestamp = u32::from_le_bytes([data[2], data[3], data[4], data[5]]);
+        let mut bytes = [0u8; 1300];
+        bytes.copy_from_slice(&data[6..6 + 1300]);
+        Some(Packet { seq, timestamp, bytes })
+    }
+}
+
 
 fn get_local_ip() -> Result<IpAddr> {
 
@@ -27,6 +54,10 @@ fn run_server() -> Result<()> {
 
     let output_channels = output_config.channels as usize;
 
+    // Make a buffer that can hold 60 Packets so we can reorder them before pushing them to audio that will be played out
+    let mut jitter_arr: Vec<Packet> = Vec::new();
+
+
     // Make ring_buffer that can hold 1 sec of 48kHz with 2 channels
     let ring_buffer = HeapRb::<i16>::new(48000 * 2);
     let (mut producer, mut consumer) = ring_buffer.split();
@@ -35,6 +66,7 @@ fn run_server() -> Result<()> {
         output_config, 
         move |data: &mut [i16], _: &cpal::OutputCallbackInfo| {
             // React to stream events and read or write stream data here
+
             for frame in data.chunks_mut(output_channels) {
                 let l = consumer.try_pop().unwrap_or(0) as i32;
                 let r = consumer.try_pop().unwrap_or(0) as i32;
@@ -73,21 +105,38 @@ fn run_server() -> Result<()> {
     socket.set_nonblocking(true)?;
 
     thread::spawn(move || {
-        let mut buf = [0u8; 1960];
+        let mut buf = [0u8; 1300];
 
         loop {
             match socket.recv_from(&mut buf) {
                 Ok((len, src)) => {
-                    let samples_count = len / 2;
+                    
+                    println!("Received '{}' bytes from'{}'", len, src);
+                    let packet: Packet = Packet::from_bytes(&buf).expect("Could not get packet form received buffer");
+                    
+                    if jitter_arr.len() == 60 {
+                        // Jitter array is full so we have to add some more sound to the output
+                        let out_pac = jitter_arr.pop().expect("Could not get first packet from jitter_arr");
+                                            let samples_count = len / 2;
 
-                    for index in 0..samples_count {
-                        let b0 = buf[index * 2];
-                        let b1 = buf[index * 2 + 1];
-                        let sample = i16::from_le_bytes([b0, b1]);
+                        for index in 0..samples_count {
+                            let b0 = out_pac.bytes[index * 2];
+                            let b1 = out_pac.bytes[index * 2 + 1];
+                            let sample = i16::from_le_bytes([b0, b1]);
 
-                        let _ = producer.try_push(sample);
+                            let _ = producer.try_push(sample);
 
-                        println!("Received '{}' bytes from'{}'", len, src);
+                        }
+                    }
+
+                    let mut i = 0;
+                    for p  in jitter_arr.iter() {
+                        if packet.seq < p.seq {
+                            jitter_arr.insert(i, packet);
+                            break;
+                        } else {
+                            i += 1;
+                        }
                     }
                 }
                 Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
@@ -132,7 +181,7 @@ fn run_client() -> Result<()> {
     
 
     const BYTES_PER_SAMPLE: usize = 2;
-    const TARGET_BYTES: usize = 1960;
+    const TARGET_BYTES: usize = 1300;
     const TARGET_SAMPLES: usize = TARGET_BYTES / BYTES_PER_SAMPLE;
 
     let ring_buffer = HeapRb::<i16>::new(48000 * 2);
@@ -167,10 +216,17 @@ fn run_client() -> Result<()> {
         target_ip = format!("{}:9999", tmp_ip);
         let target_addr: SocketAddr = target_ip.parse().expect("Failed to parse target address");
         println!("Ready to send to: {}", target_ip);
+
+        let mut sequencer: u16 = 0;
+        let mut timer: u32 = 0;
+
         loop {
             while chunk.len() < TARGET_SAMPLES {
                 match consumer.try_pop() {
-                    Some(sample) => chunk.push(sample),
+                    Some(sample) => {
+                        timer += 1;
+                        chunk.push(sample)
+                    },
                     None => thread::sleep(Duration::from_millis(1))
                 }
             }
@@ -182,10 +238,18 @@ fn run_client() -> Result<()> {
                 buf[index * 2 + 1] = byte[1];
             }
 
-            if let Err(e) = socket.send_to(&buf, target_addr) {
+            let packet = Packet {
+                seq: sequencer,
+                timestamp: timer,
+                bytes: buf
+            };
+
+            if let Err(e) = socket.send_to(&packet.to_bytes(), target_addr) {
                 eprintln!("Send error: {}", e);
             }
 
+            // We've noe sent another packet
+            sequencer += 1;
             chunk.clear();
         }
     });
