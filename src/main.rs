@@ -1,4 +1,4 @@
-use std::{env, fs::File, io::{BufReader, Result, Write, stdin, stdout}, net::{IpAddr, SocketAddr, UdpSocket}, str::FromStr, thread, time::Duration};
+use std::{env, fs::File, io::{BufReader, BufWriter, Result, Write, stdin, stdout}, net::{IpAddr, SocketAddr, UdpSocket}, str::FromStr, thread, time::Duration};
 use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 use opus::{Application, Channels, Encoder, Decoder};
@@ -315,15 +315,15 @@ fn print_contacts_from_book(book: &ContactBook) {
 }
 
 fn main() -> Result<()> {
-    let file = File::open("ContactBook.json")?;
-    let reader = BufReader::new(file);
-    
-    let mut contact_book: ContactBook = match serde_json::from_reader(reader) {
-        Ok(data) =>  data,
-        Err(e) => {eprintln!(
-            "Error reading from ContactBook.json: {:?}", e);
-            ContactBook::default()
+    let mut contact_book: ContactBook = match File::open("ContactBook.json") {
+        Ok(file) => {
+            let reader = BufReader::new(file);
+            serde_json::from_reader(reader).unwrap_or_else(|e| {
+                eprintln!("Error reading from ContactBook.json: {:?}", e);
+                ContactBook::default()
+            })
         }
+        Err(_) => ContactBook::default(), // file doesn't exist yet — start fresh
     };
     
     let mut input = String::new();
@@ -359,6 +359,12 @@ fn main() -> Result<()> {
         print_contacts_from_book(&contact_book);
         println!("You can now move on with this contact list, or add more contacts");
         println!("Move on = \"done\", add contact \"add\"");
+    }
+
+    let write_file = File::create("ContactBook.json")?;
+    let writer = BufWriter::new(write_file);
+    if let Err(e) = serde_json::to_writer_pretty(writer, &contact_book) {
+        eprintln!("Could not save contact book: {}", e);
     }
 
     let args: Vec<String> = env::args().collect();
