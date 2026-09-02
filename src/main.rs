@@ -1,7 +1,10 @@
-use std::{env, io::{Result, stdin}, net::{IpAddr, SocketAddr, UdpSocket}, thread, time::Duration};
+use std::{env, fs::File, io::{BufReader, Result, Write, stdin, stdout}, net::{IpAddr, SocketAddr, UdpSocket}, str::FromStr, thread, time::Duration};
 use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 use opus::{Application, Channels, Encoder, Decoder};
+use rsip::param::user;
+use serde::{Deserialize, Serialize};
+
 
 const DEFAULT_PORT: u16 = 9999;
 const MAX_PACKET_PAYLOAD_SIZE: usize = 960;
@@ -39,6 +42,23 @@ impl Packet {
         let mut bytes = [0u8; MAX_PACKET_PAYLOAD_SIZE];
         bytes[..payload_len as usize].copy_from_slice(&data[8..]);
         Some(Packet { seq, timestamp, payload_len, bytes })
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Contact {
+    username: String,
+    ip: IpAddr,
+}
+
+#[derive(Serialize, Deserialize, Debug, Default)]
+struct ContactBook {
+    contacts: Vec<Contact>,
+}
+
+impl ContactBook {
+    fn add_contact(&mut self, contact: Contact) {
+        self.contacts.push(contact);
     }
 }
 
@@ -285,9 +305,65 @@ fn run_client() -> Result<()> {
     Ok(())
 }
 
+fn print_contacts_from_book(book: &ContactBook) {
+        if book.contacts.len() != 0 {
+        println!("Contacts in contact book");
+        for contact  in book.contacts.iter() {
+            println!("Contact with name {} and IP {}", contact.username, contact.ip)
+        }
+    }
+}
+
 fn main() -> Result<()> {
+    let file = File::open("ContactBook.json")?;
+    let reader = BufReader::new(file);
+    
+    let mut contact_book: ContactBook = match serde_json::from_reader(reader) {
+        Ok(data) =>  data,
+        Err(e) => {eprintln!(
+            "Error reading from ContactBook.json: {:?}", e);
+            ContactBook::default()
+        }
+    };
+    
+    let mut input = String::new();
+
+    loop  {
+        input.clear();
+        stdin().read_line(&mut input).expect("Failed to read line");
+        let input = input.trim();
+        print!("Enter a command (add / done): ");
+        stdout().flush().unwrap();
+
+        if input.eq_ignore_ascii_case("done") || input.eq_ignore_ascii_case("quit") {
+            break;
+        } else if input.eq_ignore_ascii_case("add") {
+            let mut username_inp = String::new();
+            print!("Username of contact: ");
+            stdout().flush().unwrap(); 
+            stdin().read_line(&mut username_inp).expect("Failed to read line");
+            let username = username_inp.trim().to_string();
+
+            let mut ip_inp = String::new();
+            print!("Public IP of contact: ");
+            stdout().flush().unwrap(); 
+            stdin().read_line(&mut ip_inp).expect("Failed to read line");
+            let ip = IpAddr::from_str(ip_inp.trim()).expect("Could not parse provided ip address");
+
+
+            let new_contact = Contact {username, ip};
+
+            contact_book.add_contact(new_contact);
+        }
+
+        print_contacts_from_book(&contact_book);
+        println!("You can now move on with this contact list, or add more contacts");
+        println!("Move on = \"done\", add contact \"add\"");
+    }
+
     let args: Vec<String> = env::args().collect();
     let mut job: String =  String::new();
+
 
     if args.len() == 2 {
         job = args[1].to_lowercase();
