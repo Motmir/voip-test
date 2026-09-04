@@ -2,11 +2,12 @@ use std::{env, fs::File, io::{BufReader, BufWriter, Result, Write, stdin, stdout
 use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 use opus::{Application, Channels, Encoder, Decoder};
-use rsip::param::user;
 use serde::{Deserialize, Serialize};
+use rsip::{headers::From, headers::To, Method, Request, Uri, Version};
+use rsip::prelude::*;
 
 
-const DEFAULT_PORT: u16 = 9999;
+const DEFAULT_PORT: u16 = 5060;
 const MAX_PACKET_PAYLOAD_SIZE: usize = 960;
 const SEQ_SIZE: usize = 2;
 const TIMESTAMP_SIZE: usize = 4;
@@ -73,7 +74,7 @@ fn get_local_ip() -> Result<IpAddr> {
 }
 
 fn print_help() {
-    println!("#----------------------------------------------#");
+    println!("\n#----------------------------------------------#");
     println!("Please provide if you are a client or server");
     println!("#----------------------------------------------#");
 }
@@ -307,13 +308,40 @@ fn run_client() -> Result<()> {
 
 fn print_contacts_from_book(book: &ContactBook) {
         if book.contacts.len() != 0 {
-        println!("Contacts in contact book");
+        println!("\n\nContacts in contact book: ");
+        println!("==============================================");
         for contact  in book.contacts.iter() {
-            println!("Contact with name {} and IP {}", contact.username, contact.ip)
+            println!("Username: \"{}\"    IP: \"{}\"", contact.username, contact.ip)
         }
+        println!("==============================================");
     }
 }
 
+fn find_contact_from_username<'a>(username: &'a str, book: &'a ContactBook) -> Option<&'a Contact> {
+    book.contacts.iter().find(|c| c.username.eq_ignore_ascii_case(username))
+}
+
+fn run_sip_server() -> Result<()> {
+    let local_addr = format!("0.0.0.0:{}", DEFAULT_PORT);
+    let socket = UdpSocket::bind(local_addr).expect("Could not bind to local socket");
+
+    let mut buf = [0u8; 4096]; 
+
+    loop {
+        let (len, src) = socket.recv_from(&mut buf).expect("Failed to recv");
+        match rsip::SipMessage::try_from(&buf[..len]) {
+            Ok(rsip::SipMessage::Request(req)) => {
+                println!("Got request from {}: {:?} {}", src, req.method, req.uri);
+            },
+            Ok(rsip::SipMessage::Response(resp)) => {
+                println!("Got response from {}: {}", src, resp.status_code);
+            },
+            Err(err) => eprintln!("Failed to parse SIP message from {}: {}", src, err),
+        };
+    }
+
+    Ok(())
+}
 fn main() -> Result<()> {
     let mut contact_book: ContactBook = match File::open("ContactBook.json") {
         Ok(file) => {
@@ -330,10 +358,12 @@ fn main() -> Result<()> {
 
     loop  {
         input.clear();
-        stdin().read_line(&mut input).expect("Failed to read line");
-        let input = input.trim();
+        print_contacts_from_book(&contact_book);
+        println!("You can now move on with this contact list, or add more contacts");
         print!("Enter a command (add / done): ");
         stdout().flush().unwrap();
+        stdin().read_line(&mut input).expect("Failed to read line");
+        let input = input.trim();
 
         if input.eq_ignore_ascii_case("done") || input.eq_ignore_ascii_case("quit") {
             break;
@@ -355,10 +385,6 @@ fn main() -> Result<()> {
 
             contact_book.add_contact(new_contact);
         }
-
-        print_contacts_from_book(&contact_book);
-        println!("You can now move on with this contact list, or add more contacts");
-        println!("Move on = \"done\", add contact \"add\"");
     }
 
     let write_file = File::create("ContactBook.json")?;
@@ -367,23 +393,96 @@ fn main() -> Result<()> {
         eprintln!("Could not save contact book: {}", e);
     }
 
-    let args: Vec<String> = env::args().collect();
-    let mut job: String =  String::new();
+
+    println!("Who from your contact list are you?");
+    print_contacts_from_book(&contact_book);
+    print!("\nUsername: ");
+    stdout().flush().unwrap(); 
+    let mut local_user = String::new();
+    stdin().read_line(&mut local_user).expect("Failed to read line");
+    let local_user = local_user.trim();
+    let local_contact = match find_contact_from_username(&local_user, &contact_book) {
+        Some(c) => c,
+        None => {
+            eprintln!("Could not find the contact in the contact book");
+            return Ok(());
+        }
+    };
 
 
-    if args.len() == 2 {
-        job = args[1].to_lowercase();
-    } else {
-        print_help();
+    // Implement the following RSIP messages to init a call
+
+    // INVITE: a caller invites a person they want to speak with                                                                | caller -> invitee
+    // 100 Trying: the intvitee sends this back when they receive invite telling the caller they're looking for them            | invitee -> caller
+    // 180 Ringing: The invitees phone starts ringing, and the response goes back to the caller to tell them the call has begun | invitee -> caller
+    // 200 OK: The invitee picks up the call and the call is initiated                                                          | invitee -> caller
+    // ACK: The caller acks the 200 OK from the invitee                                                                         | caller -> invitee
+
+    std::thread::spawn(|| {
+        if let Err(e) = run_sip_server() {
+            eprintln!("Server error: {}", e);
+        }
+    });
+    println!("Who from you contact list would you like to call, input their username?");
+    print_contacts_from_book(&contact_book);
+    print!("\nUsername: ");
+    stdout().flush().unwrap(); 
+    let mut username_to_call = String::new();
+    stdin().read_line(&mut username_to_call).expect("Failed to read line");
+    let username_to_call = username_to_call.trim();
+
+    let contact_to_call = match find_contact_from_username(&username_to_call, &contact_book) {
+        Some(c) => c,
+        None => {
+            eprintln!("Could not find the contact in the contact book");
+            return Ok(());
+        }
+    };
+    
+    let mut headers = rsip::Headers::default();
+    let local_uri = format!("<sip:{}@{}>", local_contact.username, local_contact.ip);
+    headers.push(From::new(&local_uri).into());
+    let remote_uri = format!("<sip:{}@{}>", contact_to_call.username, contact_to_call.ip);
+    headers.push(To::new(&remote_uri).into());
+
+    dbg!(local_uri);
+    dbg!(remote_uri);
+
+    let remote_uri = rsip::Uri {
+        scheme: Some(rsip::Scheme::Sip),
+        auth: Some((contact_to_call.username.as_str(), Option::<String>::None).into()),
+        host_with_port: rsip::HostWithPort {
+            host: rsip::Host::IpAddr(contact_to_call.ip),
+            port: Some(DEFAULT_PORT.into()),
+        },
+        ..Default::default()
+    };
+
+    let request = Request {
+        method: Method::Invite,
+        uri: remote_uri,
+        version: Version::V2,
+        headers,
+        body: "Hello via SIP messages".into(),
+    };
+
+    let socket = UdpSocket::bind("0.0.0.0:0").expect("Could not bind to local socket");
+
+    let target_addr = SocketAddr::new(contact_to_call.ip, DEFAULT_PORT);
+    
+    let message: rsip::SipMessage = request.into();
+    let wire_bytes = message.to_string();
+
+    if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message");}
+
+
+    loop {
+        thread::sleep(Duration::from_secs(1));
     }
 
-    if job == "-h" || job == "help" {
-        print_help();
-    } else if job == "server" {
-        if let Err(e) = run_server() { eprintln!("Server error: {}", e); }
-    } else if job == "client" {
-        if let Err(e) = run_client() { eprintln!("Client error: {}", e); }
-    }
+    if let Err(e) = run_server() { eprintln!("Server error: {}", e); }
+    if let Err(e) = run_client() { eprintln!("Client error: {}", e); }
+
 
     Ok(())
 }
