@@ -127,8 +127,6 @@ fn run_server() -> Result<()> {
     }
     }.expect("Could not get local ip address");
 
-    println!("Your local ip is {}",local_ip);
-
 
     let addr = format!("0.0.0.0:{}", DEFAULT_PORT);
     let socket = UdpSocket::bind(&addr)?;
@@ -191,17 +189,7 @@ fn run_server() -> Result<()> {
     Ok(())
 }
 
-fn run_client() -> Result<()> {
-    let local_ip = match get_local_ip() {
-        Ok(ip) => Some(ip),
-        Err(err) => {
-            eprintln!("Error getting local IP: {:?}", err);
-            None
-        }
-    }.expect("Could not get local ip address");
-    
-    println!("Your local ip is {}",local_ip);
-
+fn run_client(target_addr: String) -> Result<()> {
 
     // Handle audio input
     let host: cpal::Host = cpal::default_host();
@@ -242,11 +230,7 @@ fn run_client() -> Result<()> {
         // Make an array that is 4 sec long of 48000hz * 2 channels audio and split it so that one can push and one cat pop
         let mut chunk: Vec<i16> = Vec::with_capacity(TARGET_SAMPLES);
 
-        let mut target_ip = String::new();
-        println!("What is the ip of the host you want to connect to?");
-        stdin().read_line(&mut target_ip).expect("Failed to read line");
-        let tmp_ip = target_ip.trim();
-        target_ip = format!("{}:{}", tmp_ip, DEFAULT_PORT);
+        let target_ip = format!("{}:{}", target_addr, DEFAULT_PORT);
         let target_addr: SocketAddr = target_ip.parse().expect("Failed to parse target address");
         println!("Ready to send to: {}", target_ip);
 
@@ -321,9 +305,12 @@ fn find_contact_from_username<'a>(username: &'a str, book: &'a ContactBook) -> O
     book.contacts.iter().find(|c| c.username.eq_ignore_ascii_case(username))
 }
 
+fn send_sip_response(src: &str, msg: &str) {
+    todo!("We tried to send a response");
+}
 
 fn run_sip_server() -> Result<()> {
-    let local_addr = format!("0.0.0.0:{}", DEFAULT_PORT);
+    let local_addr = format!("0.0.0.0:{}", 5060);
     let socket = UdpSocket::bind(local_addr).expect("Could not bind to local socket");
 
     let mut buf = [0u8; 4096]; 
@@ -335,7 +322,12 @@ fn run_sip_server() -> Result<()> {
                 match req.method {
                     rsip::Method::Invite => {
                         println!("We got an INVITE from {}: {}", src, req.uri);
-                        // Handle new call setup
+                        send_sip_response(&src.to_string(), "100");
+                        std::thread::spawn(move || {
+                            if let Err(e) = run_client(src.to_string()) {
+                                eprintln!("UDP client error: {}", e);
+                            }
+                        });
                     },
                     rsip::Method::Ack => {
                         println!("God ACK from {}: {}", src, req.uri);
@@ -424,9 +416,16 @@ fn main() -> Result<()> {
 
     std::thread::spawn(|| {
         if let Err(e) = run_sip_server() {
-            eprintln!("Server error: {}", e);
+            eprintln!("Sip server error: {}", e);
         }
     });
+
+    std::thread::spawn(|| {
+        if let Err(e) = run_server() {
+            eprintln!("UDP server error: {}", e);
+        }
+    });
+    thread::sleep(Duration::from_millis(100));
 
     loop  {
         input.clear();
@@ -511,10 +510,6 @@ fn main() -> Result<()> {
     loop {
         thread::sleep(Duration::from_secs(1));
     }
-
-    if let Err(e) = run_server() { eprintln!("Server error: {}", e); }
-    if let Err(e) = run_client() { eprintln!("Client error: {}", e); }
-
 
     Ok(())
 }
