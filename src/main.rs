@@ -3,11 +3,11 @@ use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 use opus::{Application, Channels, Encoder, Decoder};
 use serde::{Deserialize, Serialize};
-use rsip::{headers::From, headers::To, Method, Request, Uri, Version};
+use rsip::{Method, Request, SipMessage, Uri, Version, headers::{From, To}};
 use rsip::prelude::*;
 
 
-const DEFAULT_PORT: u16 = 5060;
+const DEFAULT_PORT: u16 = 9999;
 const MAX_PACKET_PAYLOAD_SIZE: usize = 960;
 const SEQ_SIZE: usize = 2;
 const TIMESTAMP_SIZE: usize = 4;
@@ -321,6 +321,7 @@ fn find_contact_from_username<'a>(username: &'a str, book: &'a ContactBook) -> O
     book.contacts.iter().find(|c| c.username.eq_ignore_ascii_case(username))
 }
 
+
 fn run_sip_server() -> Result<()> {
     let local_addr = format!("0.0.0.0:{}", DEFAULT_PORT);
     let socket = UdpSocket::bind(local_addr).expect("Could not bind to local socket");
@@ -331,10 +332,36 @@ fn run_sip_server() -> Result<()> {
         let (len, src) = socket.recv_from(&mut buf).expect("Failed to recv");
         match rsip::SipMessage::try_from(&buf[..len]) {
             Ok(rsip::SipMessage::Request(req)) => {
-                println!("Got request from {}: {:?} {}", src, req.method, req.uri);
+                match req.method {
+                    rsip::Method::Invite => {
+                        println!("We got an INVITE from {}: {}", src, req.uri);
+                        // Handle new call setup
+                    },
+                    rsip::Method::Ack => {
+                        println!("God ACK from {}: {}", src, req.uri);
+                        // Call is now established
+                    },
+                    other => {
+                        println!("Got unhandled request method {} from {}", other, src);
+                    }
+                }
             },
             Ok(rsip::SipMessage::Response(resp)) => {
-                println!("Got response from {}: {}", src, resp.status_code);
+                match resp.status_code {
+                    rsip::StatusCode::Trying => {
+                        println!("100 Trying from {}", src);
+                    },
+                    rsip::StatusCode::Ringing => {
+                        println!("180 Ringing from {}", src);
+                    },
+                    rsip::StatusCode::OK => {
+                        println!("200 OK from {}", src);
+                        // We've accepted the call send ACK
+                    },
+                    other => {
+                        println!("Got unhandled status {:?} from {}", other, src);
+                    }
+                }
             },
             Err(err) => eprintln!("Failed to parse SIP message from {}: {}", src, err),
         };
@@ -342,6 +369,45 @@ fn run_sip_server() -> Result<()> {
 
     Ok(())
 }
+
+fn call_contact(local_contact: &Contact, target_contact: &Contact) {
+    let mut headers = rsip::Headers::default();
+    let local_uri = format!("<sip:{}@{}>", local_contact.username, local_contact.ip);
+    headers.push(From::new(&local_uri).into());
+    let remote_uri = format!("<sip:{}@{}>", target_contact.username, target_contact.ip);
+    headers.push(To::new(&remote_uri).into());
+
+    dbg!(local_uri);
+    dbg!(remote_uri);
+
+    let remote_uri = rsip::Uri {
+        scheme: Some(rsip::Scheme::Sip),
+        auth: Some((target_contact.username.as_str(), Option::<String>::None).into()),
+        host_with_port: rsip::HostWithPort {
+            host: rsip::Host::IpAddr(target_contact.ip),
+            port: Some(DEFAULT_PORT.into()),
+        },
+        ..Default::default()
+    };
+
+    let request = Request {
+        method: Method::Invite,
+        uri: remote_uri,
+        version: Version::V2,
+        headers,
+        body: "Hello via SIP messages".into(),
+    };
+
+    let socket = UdpSocket::bind("0.0.0.0:0").expect("Could not bind to local socket");
+
+    let target_addr = SocketAddr::new(target_contact.ip, 5060);
+    
+    let message: rsip::SipMessage = request.into();
+    let wire_bytes = message.to_string();
+
+    if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
+}
+
 fn main() -> Result<()> {
     let mut contact_book: ContactBook = match File::open("ContactBook.json") {
         Ok(file) => {
@@ -356,11 +422,17 @@ fn main() -> Result<()> {
     
     let mut input = String::new();
 
+    std::thread::spawn(|| {
+        if let Err(e) = run_sip_server() {
+            eprintln!("Server error: {}", e);
+        }
+    });
+
     loop  {
         input.clear();
         print_contacts_from_book(&contact_book);
         println!("You can now move on with this contact list, or add more contacts");
-        print!("Enter a command (add / done): ");
+        print!("Enter a command (add / done / call): ");
         stdout().flush().unwrap();
         stdin().read_line(&mut input).expect("Failed to read line");
         let input = input.trim();
@@ -380,10 +452,43 @@ fn main() -> Result<()> {
             stdin().read_line(&mut ip_inp).expect("Failed to read line");
             let ip = IpAddr::from_str(ip_inp.trim()).expect("Could not parse provided ip address");
 
-
             let new_contact = Contact {username, ip};
 
             contact_book.add_contact(new_contact);
+        } else if input.eq_ignore_ascii_case("call") {
+            println!("Who from your contact list are you?");
+            print_contacts_from_book(&contact_book);
+            print!("\nUsername: ");
+            stdout().flush().unwrap(); 
+            let mut local_user = String::new();
+            stdin().read_line(&mut local_user).expect("Failed to read line");
+            let local_user = local_user.trim();
+            let local_contact = match find_contact_from_username(&local_user, &contact_book) {
+                Some(c) => c,
+                None => {
+                    eprintln!("Could not find the contact in the contact book");
+                    return Ok(());
+                }
+            };
+
+
+            println!("Who from you contact list would you like to call, input their username?");
+            print_contacts_from_book(&contact_book);
+            print!("\nUsername: ");
+            stdout().flush().unwrap(); 
+            let mut username_to_call = String::new();
+            stdin().read_line(&mut username_to_call).expect("Failed to read line");
+            let username_to_call = username_to_call.trim();
+
+            let contact_to_call = match find_contact_from_username(&username_to_call, &contact_book) {
+                Some(c) => c,
+                None => {
+                    eprintln!("Could not find the contact in the contact book");
+                    return Ok(());
+                }
+            };
+
+            call_contact(local_contact, contact_to_call);
         }
     }
 
@@ -394,22 +499,6 @@ fn main() -> Result<()> {
     }
 
 
-    println!("Who from your contact list are you?");
-    print_contacts_from_book(&contact_book);
-    print!("\nUsername: ");
-    stdout().flush().unwrap(); 
-    let mut local_user = String::new();
-    stdin().read_line(&mut local_user).expect("Failed to read line");
-    let local_user = local_user.trim();
-    let local_contact = match find_contact_from_username(&local_user, &contact_book) {
-        Some(c) => c,
-        None => {
-            eprintln!("Could not find the contact in the contact book");
-            return Ok(());
-        }
-    };
-
-
     // Implement the following RSIP messages to init a call
 
     // INVITE: a caller invites a person they want to speak with                                                                | caller -> invitee
@@ -417,63 +506,6 @@ fn main() -> Result<()> {
     // 180 Ringing: The invitees phone starts ringing, and the response goes back to the caller to tell them the call has begun | invitee -> caller
     // 200 OK: The invitee picks up the call and the call is initiated                                                          | invitee -> caller
     // ACK: The caller acks the 200 OK from the invitee                                                                         | caller -> invitee
-
-    std::thread::spawn(|| {
-        if let Err(e) = run_sip_server() {
-            eprintln!("Server error: {}", e);
-        }
-    });
-    println!("Who from you contact list would you like to call, input their username?");
-    print_contacts_from_book(&contact_book);
-    print!("\nUsername: ");
-    stdout().flush().unwrap(); 
-    let mut username_to_call = String::new();
-    stdin().read_line(&mut username_to_call).expect("Failed to read line");
-    let username_to_call = username_to_call.trim();
-
-    let contact_to_call = match find_contact_from_username(&username_to_call, &contact_book) {
-        Some(c) => c,
-        None => {
-            eprintln!("Could not find the contact in the contact book");
-            return Ok(());
-        }
-    };
-    
-    let mut headers = rsip::Headers::default();
-    let local_uri = format!("<sip:{}@{}>", local_contact.username, local_contact.ip);
-    headers.push(From::new(&local_uri).into());
-    let remote_uri = format!("<sip:{}@{}>", contact_to_call.username, contact_to_call.ip);
-    headers.push(To::new(&remote_uri).into());
-
-    dbg!(local_uri);
-    dbg!(remote_uri);
-
-    let remote_uri = rsip::Uri {
-        scheme: Some(rsip::Scheme::Sip),
-        auth: Some((contact_to_call.username.as_str(), Option::<String>::None).into()),
-        host_with_port: rsip::HostWithPort {
-            host: rsip::Host::IpAddr(contact_to_call.ip),
-            port: Some(DEFAULT_PORT.into()),
-        },
-        ..Default::default()
-    };
-
-    let request = Request {
-        method: Method::Invite,
-        uri: remote_uri,
-        version: Version::V2,
-        headers,
-        body: "Hello via SIP messages".into(),
-    };
-
-    let socket = UdpSocket::bind("0.0.0.0:0").expect("Could not bind to local socket");
-
-    let target_addr = SocketAddr::new(contact_to_call.ip, DEFAULT_PORT);
-    
-    let message: rsip::SipMessage = request.into();
-    let wire_bytes = message.to_string();
-
-    if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message");}
 
 
     loop {
