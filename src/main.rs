@@ -344,7 +344,7 @@ fn run_sip_server<'a>(local_contact: Contact) -> Result<()> {
                         if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
 
                         std::thread::spawn(move || {
-                            if let Err(e) = run_client(src.to_string()) {
+                            if let Err(e) = run_client(src.ip().to_string()) {
                                 eprintln!("UDP client error: {}", e);
                             }
                         });
@@ -387,10 +387,10 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact) {
 
     let branch: u64 = rand::random();
     let call_id: u64 = rand::random();
-    let rag: u64 = rand::random();
+    let tag: u64 = rand::random();
 
 
-    let local_uri = format!("<sip:{}@{}>", local_contact.username, local_contact.ip);
+    let local_uri = format!("<sip:{}@{}>;tag={}", local_contact.username, local_contact.ip, tag);
     headers.push(From::new(&local_uri).into());
 
     let remote_uri = format!("<sip:{}@{}>", target_contact.username, target_contact.ip);
