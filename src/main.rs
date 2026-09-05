@@ -351,8 +351,6 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                 match req.method {
                     rsip::Method::Invite => {
                         println!("We got an INVITE from {}: {}", src, req.uri);
-                        let test = parse_media_port(&req.body).unwrap();
-                        println!("Test: {}", test);
                         let resp_to_send = rsip::Response {
                             status_code: 100.into(),
                             headers: response_headers.clone(),
