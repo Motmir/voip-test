@@ -46,7 +46,7 @@ impl Packet {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 struct Contact {
     username: String,
     ip: IpAddr,
@@ -292,7 +292,7 @@ fn run_client(target_addr: String) -> Result<()> {
 
 fn print_contacts_from_book(book: &ContactBook) {
         if book.contacts.len() != 0 {
-        println!("\n\nContacts in contact book: ");
+        println!("\nContacts in contact book: ");
         println!("==============================================");
         for contact  in book.contacts.iter() {
             println!("Username: \"{}\"    IP: \"{}\"", contact.username, contact.ip)
@@ -301,15 +301,11 @@ fn print_contacts_from_book(book: &ContactBook) {
     }
 }
 
-fn find_contact_from_username<'a>(username: &'a str, book: &'a ContactBook) -> Option<&'a Contact> {
+fn find_contact_from_username<'a>(username: &str, book: &'a ContactBook) -> Option<&'a Contact> {
     book.contacts.iter().find(|c| c.username.eq_ignore_ascii_case(username))
 }
 
-fn send_sip_response(src: &str, msg: &str) {
-    todo!("We tried to send a response");
-}
-
-fn run_sip_server() -> Result<()> {
+fn run_sip_server<'a>(local_contact: Contact) -> Result<()> {
     let local_addr = format!("0.0.0.0:{}", 5060);
     let socket = UdpSocket::bind(local_addr).expect("Could not bind to local socket");
 
@@ -322,7 +318,31 @@ fn run_sip_server() -> Result<()> {
                 match req.method {
                     rsip::Method::Invite => {
                         println!("We got an INVITE from {}: {}", src, req.uri);
-                        send_sip_response(&src.to_string(), "100");
+                        let mut response_headers = rsip::Headers::default();
+                        response_headers.push(req.via_header().expect("Could not convert via_header").clone().into());
+                        response_headers.push(req.from_header().expect("Could not convert from_header").clone().into());
+                        response_headers.push(req.call_id_header().expect("Could not convert id_header").clone().into());
+                        response_headers.push(req.cseq_header().expect("Could not convert cseq_header").clone().into());
+                        
+                        let mut to_header = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
+
+                        response_headers.push(to_header.into());
+                        response_headers.push(rsip::Header::ContentLength(Default::default()));
+                        let resp_to_send = rsip::Response {
+                            status_code: 100.into(),
+                            headers: response_headers,
+                            version: rsip::Version::V2,
+                            body: vec![],
+                        };
+
+                        let socket = UdpSocket::bind("0.0.0.0:0").expect("Could not bind to local socket");
+                        let target_addr = SocketAddr::new(src.ip(), 5060);
+                        
+                        let message: rsip::SipMessage = resp_to_send.into();
+                        let wire_bytes = message.to_string();
+
+                        if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
+
                         std::thread::spawn(move || {
                             if let Err(e) = run_client(src.to_string()) {
                                 eprintln!("UDP client error: {}", e);
@@ -415,12 +435,6 @@ fn main() -> Result<()> {
     let mut input = String::new();
 
     std::thread::spawn(|| {
-        if let Err(e) = run_sip_server() {
-            eprintln!("Sip server error: {}", e);
-        }
-    });
-
-    std::thread::spawn(|| {
         if let Err(e) = run_server() {
             eprintln!("UDP server error: {}", e);
         }
@@ -431,8 +445,7 @@ fn main() -> Result<()> {
         input.clear();
         print_contacts_from_book(&contact_book);
         println!("You can now move on with this contact list, or add more contacts");
-        print!("Enter a command (add / done / call): ");
-        stdout().flush().unwrap();
+        println!("Enter a command (add / done / call): ");
         stdin().read_line(&mut input).expect("Failed to read line");
         let input = input.trim();
 
@@ -455,20 +468,27 @@ fn main() -> Result<()> {
 
             contact_book.add_contact(new_contact);
         } else if input.eq_ignore_ascii_case("call") {
-            println!("Who from your contact list are you?");
+            println!("\nWho from your contact list are you?");
             print_contacts_from_book(&contact_book);
-            print!("\nUsername: ");
+            print!("Username: ");
             stdout().flush().unwrap(); 
             let mut local_user = String::new();
             stdin().read_line(&mut local_user).expect("Failed to read line");
             let local_user = local_user.trim();
             let local_contact = match find_contact_from_username(&local_user, &contact_book) {
-                Some(c) => c,
+                Some(c) => c.clone(),
                 None => {
                     eprintln!("Could not find the contact in the contact book");
                     return Ok(());
                 }
             };
+
+            let contact_for_server = local_contact.clone();
+            std::thread::spawn(move || {
+                if let Err(e) = run_sip_server(contact_for_server) {
+                    eprintln!("Sip server error: {}", e);
+                }
+            });
 
 
             println!("Who from you contact list would you like to call, input their username?");
@@ -487,7 +507,10 @@ fn main() -> Result<()> {
                 }
             };
 
-            call_contact(local_contact, contact_to_call);
+            call_contact(&local_contact, contact_to_call);
+            loop {
+                thread::sleep(Duration::from_secs(1));
+            }
         }
     }
 
@@ -507,9 +530,6 @@ fn main() -> Result<()> {
     // ACK: The caller acks the 200 OK from the invitee                                                                         | caller -> invitee
 
 
-    loop {
-        thread::sleep(Duration::from_secs(1));
-    }
 
     Ok(())
 }
