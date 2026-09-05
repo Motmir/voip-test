@@ -435,7 +435,7 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                     rsip::StatusCode::OK => {
                         println!("200 OK from {}", src);
                         let calls = calls.lock().expect("Cannot lock calls");
-                        let call_id = resp.call_id_header().expect("Could not get call_id from resp header").to_string();
+                        let call_id = resp.call_id_header().expect("Could not get call_id from resp header").value().to_string();
                         let dialog = calls.get(&call_id).expect("Could not get dialog");
                         let local_uri_with_tag = format!("<sip:{}@{}>;tag={}", local_contact.username, local_contact.ip, dialog.local_tag);
                         let to_header = resp.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
