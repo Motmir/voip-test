@@ -344,16 +344,16 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                 response_headers.push(req.cseq_header().expect("Could not convert cseq_header").clone().into());
                 
                 let to_header = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
-
-                response_headers.push(to_header.into());
                 response_headers.push(rsip::Header::ContentLength(Default::default()));
 
                 match req.method {
                     rsip::Method::Invite => {
                         println!("We got an INVITE from {}: {}", src, req.uri);
+                        let mut resp100_headers = response_headers.clone();
+                        resp100_headers.push(to_header.clone().into());
                         let resp_to_send = rsip::Response {
                             status_code: 100.into(),
-                            headers: response_headers.clone(),
+                            headers: resp100_headers.clone(),
                             version: rsip::Version::V2,
                             body: vec![],
                         };
@@ -365,10 +365,11 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                         let wire_bytes = message.to_string();
 
                         if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
-
+                        let mut resp180_headers = response_headers.clone();
+                        resp180_headers.push(to_header.clone().into());
                         let resp_to_send = rsip::Response {
                             status_code: 180.into(),
-                            headers: response_headers.clone(),
+                            headers: resp180_headers.clone(),
                             version: rsip::Version::V2,
                             body: vec![],
                         };
@@ -396,7 +397,7 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
 
                             let resp_to_send = rsip::Response {
                                 status_code: 200.into(),
-                                headers: response_headers.clone(),
+                                headers: headers.clone(),
                                 version: rsip::Version::V2,
                                 body: sdp.into_bytes(),
                             };
@@ -408,8 +409,14 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                         }
                     },
                     rsip::Method::Ack => {
-                        println!("God ACK from {}: {}", src, req.uri);
+                        println!("Got ACK from {}: {}", src, req.uri);
                         // Call is now established
+                        let caller_ip = src.ip().to_string();
+                        std::thread::spawn(move || {
+                            if let Err(e) = run_client(caller_ip) {
+                                eprintln!("UDP client error: {}", e);
+                            }
+                        });
                     },
                     other => {
                         println!("Got unhandled request method {} from {}", other, src);
@@ -482,16 +489,16 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
 }
 
 fn build_sdp(local_ip: IpAddr, media_port: u16) -> String {
- format!(
-    "v=0\r\n
-    0=- 0 0 IN IP4 {ip}\r\n
-    s=voip-test\r\n
-    c=IN IP4 {ip}\r\n
-    t=0 0\r\n
-    m=audio {port} RTP/AVP 96\r\n\
-    a=rtpmap:96 opus/48000/2",
-    ip = local_ip, port = media_port
- )
+    format!(
+        "v=0\r\n\
+            o=- 0 0 IN IP4 {ip}\r\n\
+            s=voip-test\r\n\
+            c=IN IP4 {ip}\r\n\
+            t=0 0\r\n\
+            m=audio {port} RTP/AVP 96\r\n\
+            a=rtpmap:96 opus/48000/2\r\n",
+        ip = local_ip, port = media_port
+    )
 }
 
 fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dialog>>>) {
