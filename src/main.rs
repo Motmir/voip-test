@@ -663,9 +663,7 @@ fn main() -> Result<()> {
             let call_clone  = Arc::clone(&calls);
 
             call_contact(&local_contact, contact_to_call, call_clone);
-            loop {
-                thread::sleep(Duration::from_secs(1));
-            }
+            break;
         }
     }
 
