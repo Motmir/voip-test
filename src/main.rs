@@ -672,6 +672,9 @@ fn main() -> Result<()> {
     if let Err(e) = serde_json::to_writer_pretty(writer, &contact_book) {
         eprintln!("Could not save contact book: {}", e);
     }
+    loop {
+            thread::sleep(Duration::from_secs(1));
+    }
 
 
     // Implement the following RSIP messages to init a call
