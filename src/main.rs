@@ -351,6 +351,7 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                         let mut resp100_headers = response_headers.clone();
                         resp100_headers.push(rsip::Header::ContentLength(Default::default()));
                         resp100_headers.push(to_header.clone().into());
+
                         let resp_to_send = rsip::Response {
                             status_code: 100.into(),
                             headers: resp100_headers.clone(),
@@ -528,6 +529,7 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mu
 
     headers.push(MaxForwards::new("70").into());
 
+
     let mut calls = calls.lock().expect("Cannot lock calls");
 
     calls.insert(call_id.to_string(), Dialog {
@@ -552,7 +554,9 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mu
     };
 
     let sdp = build_sdp(local_contact.ip, DEFAULT_PORT as u16);
-
+    headers.push(rsip::Header::ContentType("application/sdp".into()));
+    headers.push(rsip::Header::ContentLength((sdp.len() as u32).into()));
+    
     let request = Request {
         method: Method::Invite,
         uri: remote_uri,
