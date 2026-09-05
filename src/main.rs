@@ -328,7 +328,7 @@ fn parse_media_port(body: &[u8]) -> Option<u16> {
 
 
 fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dialog>>>) -> Result<()> {
-    let local_addr = format!("0.0.0.0:{}", 5060);
+    let local_addr = format!("0.0.0.0:{}", 55060);
     let socket = UdpSocket::bind(local_addr).expect("Could not bind to local socket");
 
     let mut buf = [0u8; 4096]; 
@@ -360,7 +360,7 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                         };
 
                         let socket = UdpSocket::bind("0.0.0.0:0").expect("Could not bind to local socket");
-                        let target_addr = SocketAddr::new(src.ip(), 5060);
+                        let target_addr = SocketAddr::new(src.ip(), 55060);
                         
                         let message: rsip::SipMessage = resp_to_send.into();
                         let wire_bytes = message.to_string();
@@ -441,7 +441,7 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                         let local_uri_with_tag = format!("<sip:{}@{}>;tag={}", local_contact.username, local_contact.ip, dialog.local_tag);
                         let to_header = resp.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
                         let ack_branch: u64 = rand::random();
-                        let via = format!("SIP/2.0/UDP {}:5060;branch=z9hG4bK{}", local_contact.ip, ack_branch);
+                        let via = format!("SIP/2.0/UDP {}:55060;branch=z9hG4bK{}", local_contact.ip, ack_branch);
 
                         let mut headers = rsip::Headers::default();
                         headers.push(From::new(&local_uri_with_tag).into());
@@ -468,7 +468,7 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                             body: vec![],
                         };
 
-                        let target_addr = SocketAddr::new(src.ip(), 5060);
+                        let target_addr = SocketAddr::new(src.ip(), 55060);
                         let message: rsip::SipMessage = ack.into();
                         let wire_bytes = message.to_string();
 
@@ -520,7 +520,7 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mu
     let remote_uri = format!("<sip:{}@{}>", target_contact.username, target_contact.ip);
     headers.push(To::new(&remote_uri).into());
 
-    let via = format!("SIP/2.0/UDP {}:5060;branch=z9hG4bK{}", local_contact.ip, branch);
+    let via = format!("SIP/2.0/UDP {}:55060;branch=z9hG4bK{}", local_contact.ip, branch);
     headers.push(Via::new(&via).into());
 
     headers.push(CallId::new(format!("{}", call_id)).into());
@@ -537,7 +537,7 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mu
         local_tag: tag.to_string(),
         remote_tag: None,
         peer_addr: target_contact.ip,
-        peer_sip_port: 5060,
+        peer_sip_port: 55060,
         peer_media_port: None,
         local_media_port: 9999,
         cseq: 1,
@@ -548,7 +548,7 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mu
         auth: Some((target_contact.username.as_str(), Option::<String>::None).into()),
         host_with_port: rsip::HostWithPort {
             host: rsip::Host::IpAddr(target_contact.ip),
-            port: Some(5060.into()),
+            port: Some(55060.into()),
         },
         ..Default::default()
     };
@@ -556,7 +556,7 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mu
     let sdp = build_sdp(local_contact.ip, DEFAULT_PORT as u16);
     headers.push(rsip::Header::ContentType("application/sdp".into()));
     headers.push(rsip::Header::ContentLength((sdp.len() as u32).into()));
-    
+
     let request = Request {
         method: Method::Invite,
         uri: remote_uri,
@@ -567,7 +567,7 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mu
 
     let socket = UdpSocket::bind("0.0.0.0:0").expect("Could not bind to local socket");
 
-    let target_addr = SocketAddr::new(target_contact.ip, 5060);
+    let target_addr = SocketAddr::new(target_contact.ip, 55060);
     
     let message: rsip::SipMessage = request.into();
     let wire_bytes = message.to_string();
