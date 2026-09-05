@@ -379,34 +379,33 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
 
                         if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
                         
-                        println!("You are being called from {}. Do you want accept the call (y/n):", src);
-                        let mut answer = String::new();
-                        stdin().read_line(&mut answer).expect("Failed to read line");
-                        let answer = answer.trim();
+                        println!("You are being called from {}. Auto accepting", src);
+                        // println!("You are being called from {}. Do you want accept the call (y/n):", src);
+                        // let mut answer = String::new();
+                        // stdin().read_line(&mut answer).expect("Failed to read line");
+                        // let answer = answer.trim();
 
-                        if answer.eq_ignore_ascii_case("y") {
-                            let local_tag: u64 = rand::random();
-                            let mut to_typed = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
-                            to_typed.params.push(rsip::Param::Tag(local_tag.to_string().into()));
+                        let local_tag: u64 = rand::random();
+                        let mut to_typed = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
+                        to_typed.params.push(rsip::Param::Tag(local_tag.to_string().into()));
 
-                            let sdp = build_sdp(local_contact.ip, DEFAULT_PORT);
-                            let mut headers = response_headers.clone();
-                            headers.push(to_typed.into());
-                            headers.push(rsip::Header::ContentType("application/sdp".into()));
-                            headers.push(rsip::Header::ContentLength((sdp.len() as u32).into()));
+                        let sdp = build_sdp(local_contact.ip, DEFAULT_PORT);
+                        let mut headers = response_headers.clone();
+                        headers.push(to_typed.into());
+                        headers.push(rsip::Header::ContentType("application/sdp".into()));
+                        headers.push(rsip::Header::ContentLength((sdp.len() as u32).into()));
 
-                            let resp_to_send = rsip::Response {
-                                status_code: 200.into(),
-                                headers: headers.clone(),
-                                version: rsip::Version::V2,
-                                body: sdp.into_bytes(),
-                            };
+                        let resp_to_send = rsip::Response {
+                            status_code: 200.into(),
+                            headers: headers.clone(),
+                            version: rsip::Version::V2,
+                            body: sdp.into_bytes(),
+                        };
 
-                            let message: rsip::SipMessage = resp_to_send.into();
-                            let wire_bytes = message.to_string();
+                        let message: rsip::SipMessage = resp_to_send.into();
+                        let wire_bytes = message.to_string();
 
-                            if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
-                        }
+                        if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
                     },
                     rsip::Method::Ack => {
                         println!("Got ACK from {}: {}", src, req.uri);
