@@ -3,7 +3,7 @@ use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 use opus::{Application, Channels, Encoder, Decoder};
 use serde::{Deserialize, Serialize};
-use rsip::{Method, Request, SipMessage, Uri, Version, headers::{From, To}};
+use rsip::{Method, Request, SipMessage, Uri, Version, headers::{CSeq, CallId, From, MaxForwards, To, Via}};
 use rsip::prelude::*;
 
 
@@ -384,13 +384,26 @@ fn run_sip_server<'a>(local_contact: Contact) -> Result<()> {
 
 fn call_contact(local_contact: &Contact, target_contact: &Contact) {
     let mut headers = rsip::Headers::default();
+
+    let branch: u64 = rand::random();
+    let call_id: u64 = rand::random();
+    let rag: u64 = rand::random();
+
+
     let local_uri = format!("<sip:{}@{}>", local_contact.username, local_contact.ip);
     headers.push(From::new(&local_uri).into());
+
     let remote_uri = format!("<sip:{}@{}>", target_contact.username, target_contact.ip);
     headers.push(To::new(&remote_uri).into());
 
-    dbg!(local_uri);
-    dbg!(remote_uri);
+    let via = format!("SIP/2.0/UDP {}:5060;branch=z9hG4bK{}", local_contact.ip, branch);
+    headers.push(Via::new(&via).into());
+
+    headers.push(CallId::new(format!("{}", call_id)).into());
+
+    headers.push(CSeq::new("1 INVITE").into());
+
+    headers.push(MaxForwards::new("70").into());
 
     let remote_uri = rsip::Uri {
         scheme: Some(rsip::Scheme::Sip),
