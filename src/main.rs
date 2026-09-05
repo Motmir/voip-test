@@ -454,21 +454,6 @@ fn main() -> Result<()> {
     });
     thread::sleep(Duration::from_millis(100));
 
-    println!("\nWho from your contact list are you?");
-    print_contacts_from_book(&contact_book);
-    print!("Username: ");
-    stdout().flush().unwrap(); 
-    let mut local_user = String::new();
-    stdin().read_line(&mut local_user).expect("Failed to read line");
-    let local_user = local_user.trim();
-    let local_contact = match find_contact_from_username(&local_user, &contact_book) {
-        Some(c) => c.clone(),
-        None => {
-            eprintln!("Could not find the contact in the contact book");
-            return Ok(());
-        }
-    };
-
     std::thread::spawn(move || {
         if let Err(e) = run_sip_server() {
             eprintln!("Sip server error: {}", e);
@@ -502,6 +487,20 @@ fn main() -> Result<()> {
 
             contact_book.add_contact(new_contact);
         } else if input.eq_ignore_ascii_case("call") {
+            println!("\nWho from your contact list are you?");
+            print_contacts_from_book(&contact_book);
+            print!("Username: ");
+            stdout().flush().unwrap(); 
+            let mut local_user = String::new();
+            stdin().read_line(&mut local_user).expect("Failed to read line");
+            let local_user = local_user.trim();
+            let local_contact = match find_contact_from_username(&local_user, &contact_book) {
+                Some(c) => c.clone(),
+                None => {
+                    eprintln!("Could not find the contact in the contact book");
+                    return Ok(());
+                }
+            };
 
 
             println!("Who from you contact list would you like to call, input their username?");
