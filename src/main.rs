@@ -344,12 +344,12 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                 response_headers.push(req.cseq_header().expect("Could not convert cseq_header").clone().into());
                 
                 let to_header = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
-                response_headers.push(rsip::Header::ContentLength(Default::default()));
 
                 match req.method {
                     rsip::Method::Invite => {
                         println!("We got an INVITE from {}: {}", src, req.uri);
                         let mut resp100_headers = response_headers.clone();
+                        resp100_headers.push(rsip::Header::ContentLength(Default::default()));
                         resp100_headers.push(to_header.clone().into());
                         let resp_to_send = rsip::Response {
                             status_code: 100.into(),
@@ -367,6 +367,7 @@ fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dial
                         if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
                         let mut resp180_headers = response_headers.clone();
                         resp180_headers.push(to_header.clone().into());
+                        resp180_headers.push(rsip::Header::ContentLength(Default::default()));
                         let resp_to_send = rsip::Response {
                             status_code: 180.into(),
                             headers: resp180_headers.clone(),
