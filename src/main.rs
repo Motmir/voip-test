@@ -397,7 +397,7 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact) {
         auth: Some((target_contact.username.as_str(), Option::<String>::None).into()),
         host_with_port: rsip::HostWithPort {
             host: rsip::Host::IpAddr(target_contact.ip),
-            port: Some(DEFAULT_PORT.into()),
+            port: Some(5060.into()),
         },
         ..Default::default()
     };
