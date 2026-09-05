@@ -1,4 +1,4 @@
-use std::{env, fs::File, io::{BufReader, BufWriter, Result, Write, stdin, stdout}, net::{IpAddr, SocketAddr, UdpSocket}, str::FromStr, thread, time::Duration};
+use std::{collections::HashMap, env, fs::File, io::{BufReader, BufWriter, Result, Write, stdin, stdout}, net::{IpAddr, SocketAddr, UdpSocket}, str::FromStr, sync::{Arc, Mutex}, thread, time::Duration};
 use cpal::{StreamConfig, traits::{DeviceTrait, HostTrait, StreamTrait}};
 use ringbuf::{HeapRb, traits::*};
 use opus::{Application, Channels, Encoder, Decoder};
@@ -63,6 +63,17 @@ impl ContactBook {
     }
 }
 
+#[derive(Debug)]
+struct Dialog {
+    call_id: String,
+    local_tag: String,
+    remote_tag: Option<String>, // Only filled in once the callee's 200 OK has arrived
+    peer_addr: IpAddr,
+    peer_sip_port: u16,
+    peer_media_port: Option<u16>, // From their SDP
+    local_media_port: u16,
+    cseq: u32,
+}
 
 fn get_local_ip() -> Result<IpAddr> {
 
@@ -305,7 +316,18 @@ fn find_contact_from_username<'a>(username: &str, book: &'a ContactBook) -> Opti
     book.contacts.iter().find(|c| c.username.eq_ignore_ascii_case(username))
 }
 
-fn run_sip_server() -> Result<()> {
+fn parse_media_port(body: &[u8]) -> Option<u16> {
+    let text = std::str::from_utf8(body).ok()?;
+    for line in text.lines() {
+        if let Some(rest) = line.strip_prefix("m=audio ") {
+            return rest.split_whitespace().next()?.parse().ok();
+        }
+    }
+    None
+}
+
+
+fn run_sip_server(local_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dialog>>>) -> Result<()> {
     let local_addr = format!("0.0.0.0:{}", 5060);
     let socket = UdpSocket::bind(local_addr).expect("Could not bind to local socket");
 
@@ -315,22 +337,25 @@ fn run_sip_server() -> Result<()> {
         let (len, src) = socket.recv_from(&mut buf).expect("Failed to recv");
         match rsip::SipMessage::try_from(&buf[..len]) {
             Ok(rsip::SipMessage::Request(req)) => {
+                let mut response_headers = rsip::Headers::default();
+                response_headers.push(req.via_header().expect("Could not convert via_header").clone().into());
+                response_headers.push(req.from_header().expect("Could not convert from_header").clone().into());
+                response_headers.push(req.call_id_header().expect("Could not convert id_header").clone().into());
+                response_headers.push(req.cseq_header().expect("Could not convert cseq_header").clone().into());
+                
+                let to_header = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
+
+                response_headers.push(to_header.into());
+                response_headers.push(rsip::Header::ContentLength(Default::default()));
+
                 match req.method {
                     rsip::Method::Invite => {
                         println!("We got an INVITE from {}: {}", src, req.uri);
-                        let mut response_headers = rsip::Headers::default();
-                        response_headers.push(req.via_header().expect("Could not convert via_header").clone().into());
-                        response_headers.push(req.from_header().expect("Could not convert from_header").clone().into());
-                        response_headers.push(req.call_id_header().expect("Could not convert id_header").clone().into());
-                        response_headers.push(req.cseq_header().expect("Could not convert cseq_header").clone().into());
-                        
-                        let to_header = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
-
-                        response_headers.push(to_header.into());
-                        response_headers.push(rsip::Header::ContentLength(Default::default()));
+                        let test = parse_media_port(&req.body).unwrap();
+                        println!("Test: {}", test);
                         let resp_to_send = rsip::Response {
                             status_code: 100.into(),
-                            headers: response_headers,
+                            headers: response_headers.clone(),
                             version: rsip::Version::V2,
                             body: vec![],
                         };
@@ -343,6 +368,46 @@ fn run_sip_server() -> Result<()> {
 
                         if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
 
+                        let resp_to_send = rsip::Response {
+                            status_code: 180.into(),
+                            headers: response_headers.clone(),
+                            version: rsip::Version::V2,
+                            body: vec![],
+                        };
+
+                        let message: rsip::SipMessage = resp_to_send.into();
+                        let wire_bytes = message.to_string();
+
+                        if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
+                        
+                        println!("You are being called from {}. Do you want accept the call (y/n):", src);
+                        let mut answer = String::new();
+                        stdin().read_line(&mut answer).expect("Failed to read line");
+                        let answer = answer.trim();
+
+                        if answer.eq_ignore_ascii_case("y") {
+                            let local_tag: u64 = rand::random();
+                            let mut to_typed = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
+                            to_typed.params.push(rsip::Param::Tag(local_tag.to_string().into()));
+
+                            let sdp = build_sdp(local_contact.ip, DEFAULT_PORT);
+                            let mut headers = response_headers.clone();
+                            headers.push(to_typed.into());
+                            headers.push(rsip::Header::ContentType("application/sdp".into()));
+                            headers.push(rsip::Header::ContentLength((sdp.len() as u32).into()));
+
+                            let resp_to_send = rsip::Response {
+                                status_code: 200.into(),
+                                headers: response_headers.clone(),
+                                version: rsip::Version::V2,
+                                body: sdp.into_bytes(),
+                            };
+
+                            let message: rsip::SipMessage = resp_to_send.into();
+                            let wire_bytes = message.to_string();
+
+                            if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
+                        }
                     },
                     rsip::Method::Ack => {
                         println!("God ACK from {}: {}", src, req.uri);
@@ -352,11 +417,6 @@ fn run_sip_server() -> Result<()> {
                         println!("Got unhandled request method {} from {}", other, src);
                     }
                 }
-                std::thread::spawn(move || {
-                    if let Err(e) = run_client(src.ip().to_string()) {
-                        eprintln!("UDP client error: {}", e);
-                    }
-                });
             },
             Ok(rsip::SipMessage::Response(resp)) => {
                 match resp.status_code {
@@ -365,9 +425,50 @@ fn run_sip_server() -> Result<()> {
                     },
                     rsip::StatusCode::Ringing => {
                         println!("180 Ringing from {}", src);
+                        println!("The ringtone at {} is going of 'in spirit'", src);
                     },
                     rsip::StatusCode::OK => {
                         println!("200 OK from {}", src);
+                        let calls = calls.lock().expect("Cannot lock calls");
+                        let call_id = resp.call_id_header().expect("Could not get call_id from resp header").to_string();
+                        let dialog = calls.get(&call_id).expect("Could not get dialog");
+                        let mut headers = rsip::Headers::default();
+                        let local_uri_with_tag = format!("<sip:{}@{}>;tag={}", local_contact.username, local_contact.ip, dialog.local_tag);
+                        headers.push(From::new(&local_uri_with_tag).into());
+                        let to_header = resp.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
+                        headers.push(to_header.into());
+                        headers.push(CallId::new(dialog.call_id.clone()).into());
+                        headers.push(CSeq::new(format!("{} ACK", dialog.cseq)).into());
+
+                        let remote_uri = rsip::Uri {
+                            scheme: Some(rsip::Scheme::Sip),
+                            auth: None,
+                            host_with_port: rsip::HostWithPort {
+                                host: rsip::Host::IpAddr(dialog.peer_addr),
+                                port: Some(dialog.peer_sip_port.into()),
+                            },
+                            ..Default::default()
+                        };
+
+                        let ack = Request {
+                            method: Method::Ack,
+                            uri: remote_uri,
+                            version: Version::V2,
+                            headers,
+                            body: vec![],
+                        };
+
+                        let target_addr = SocketAddr::new(src.ip(), 5060);
+                        let message: rsip::SipMessage = ack.into();
+                        let wire_bytes = message.to_string();
+
+                        if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
+
+                        std::thread::spawn(move || {
+                            if let Err(e) = run_client(src.ip().to_string()) {
+                                eprintln!("UDP client error: {}", e);
+                            }
+                        });
 
                     },
                     other => {
@@ -382,7 +483,20 @@ fn run_sip_server() -> Result<()> {
     Ok(())
 }
 
-fn call_contact(local_contact: &Contact, target_contact: &Contact) {
+fn build_sdp(local_ip: IpAddr, media_port: u16) -> String {
+ format!(
+    "v=0\r\n
+    0=- 0 0 IN IP4 {ip}\r\n
+    s=voip-test\r\n
+    c=IN IP4 {ip}\r\n
+    t=0 0\r\n
+    m=audio {port} RTP/AVP 96\r\n\
+    a=rtpmap:96 opus/48000/2",
+    ip = local_ip, port = media_port
+ )
+}
+
+fn call_contact(local_contact: &Contact, target_contact: &Contact, calls: Arc<Mutex<HashMap<String, Dialog>>>) {
     let mut headers = rsip::Headers::default();
 
     let branch: u64 = rand::random();
@@ -405,6 +519,19 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact) {
 
     headers.push(MaxForwards::new("70").into());
 
+    let mut calls = calls.lock().expect("Cannot lock calls");
+
+    calls.insert(call_id.to_string(), Dialog {
+        call_id: call_id.to_string(),
+        local_tag: tag.to_string(),
+        remote_tag: None,
+        peer_addr: target_contact.ip,
+        peer_sip_port: 5060,
+        peer_media_port: None,
+        local_media_port: 9999,
+        cseq: 1,
+    });
+
     let remote_uri = rsip::Uri {
         scheme: Some(rsip::Scheme::Sip),
         auth: Some((target_contact.username.as_str(), Option::<String>::None).into()),
@@ -415,12 +542,14 @@ fn call_contact(local_contact: &Contact, target_contact: &Contact) {
         ..Default::default()
     };
 
+    let sdp = build_sdp(local_contact.ip, DEFAULT_PORT as u16);
+
     let request = Request {
         method: Method::Invite,
         uri: remote_uri,
         version: Version::V2,
         headers,
-        body: "Hello via SIP messages".into(),
+        body: sdp.into_bytes(),
     };
 
     let socket = UdpSocket::bind("0.0.0.0:0").expect("Could not bind to local socket");
@@ -454,11 +583,30 @@ fn main() -> Result<()> {
     });
     thread::sleep(Duration::from_millis(100));
 
+    println!("\nWho from your contact list are you?");
+    print_contacts_from_book(&contact_book);
+    print!("Username: ");
+    stdout().flush().unwrap(); 
+    let mut local_user = String::new();
+    stdin().read_line(&mut local_user).expect("Failed to read line");
+    let local_user = local_user.trim();
+    let local_contact = match find_contact_from_username(&local_user, &contact_book) {
+        Some(c) => c.clone(),
+        None => {
+            eprintln!("Could not find the contact in the contact book");
+            return Ok(());
+        }
+    };
+
+    let calls: Arc<Mutex<HashMap<String, Dialog>>> = Arc::new(Mutex::new(HashMap::new()));
+    let local_for_sip_serv = local_contact.clone();
+    let server_call_clone  = Arc::clone(&calls);
     std::thread::spawn(move || {
-        if let Err(e) = run_sip_server() {
+        if let Err(e) = run_sip_server(&local_for_sip_serv, server_call_clone) {
             eprintln!("Sip server error: {}", e);
         }
     });
+
 
     loop  {
         input.clear();
@@ -487,22 +635,6 @@ fn main() -> Result<()> {
 
             contact_book.add_contact(new_contact);
         } else if input.eq_ignore_ascii_case("call") {
-            println!("\nWho from your contact list are you?");
-            print_contacts_from_book(&contact_book);
-            print!("Username: ");
-            stdout().flush().unwrap(); 
-            let mut local_user = String::new();
-            stdin().read_line(&mut local_user).expect("Failed to read line");
-            let local_user = local_user.trim();
-            let local_contact = match find_contact_from_username(&local_user, &contact_book) {
-                Some(c) => c.clone(),
-                None => {
-                    eprintln!("Could not find the contact in the contact book");
-                    return Ok(());
-                }
-            };
-
-
             println!("Who from you contact list would you like to call, input their username?");
             print_contacts_from_book(&contact_book);
             print!("\nUsername: ");
@@ -519,7 +651,9 @@ fn main() -> Result<()> {
                 }
             };
 
-            call_contact(&local_contact, contact_to_call);
+            let call_clone  = Arc::clone(&calls);
+
+            call_contact(&local_contact, contact_to_call, call_clone);
             loop {
                 thread::sleep(Duration::from_secs(1));
             }
