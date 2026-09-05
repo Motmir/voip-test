@@ -305,7 +305,7 @@ fn find_contact_from_username<'a>(username: &str, book: &'a ContactBook) -> Opti
     book.contacts.iter().find(|c| c.username.eq_ignore_ascii_case(username))
 }
 
-fn run_sip_server<'a>(local_contact: Contact) -> Result<()> {
+fn run_sip_server() -> Result<()> {
     let local_addr = format!("0.0.0.0:{}", 5060);
     let socket = UdpSocket::bind(local_addr).expect("Could not bind to local socket");
 
@@ -324,7 +324,7 @@ fn run_sip_server<'a>(local_contact: Contact) -> Result<()> {
                         response_headers.push(req.call_id_header().expect("Could not convert id_header").clone().into());
                         response_headers.push(req.cseq_header().expect("Could not convert cseq_header").clone().into());
                         
-                        let mut to_header = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
+                        let to_header = req.to_header().expect("Failed to_header the request").typed().expect("Failed typed to_header");
 
                         response_headers.push(to_header.into());
                         response_headers.push(rsip::Header::ContentLength(Default::default()));
@@ -343,11 +343,6 @@ fn run_sip_server<'a>(local_contact: Contact) -> Result<()> {
 
                         if let Err(e) = socket.send_to(wire_bytes.as_bytes(), target_addr) {eprintln!("Failed to send message: {}", e);}
 
-                        std::thread::spawn(move || {
-                            if let Err(e) = run_client(src.ip().to_string()) {
-                                eprintln!("UDP client error: {}", e);
-                            }
-                        });
                     },
                     rsip::Method::Ack => {
                         println!("God ACK from {}: {}", src, req.uri);
@@ -368,7 +363,11 @@ fn run_sip_server<'a>(local_contact: Contact) -> Result<()> {
                     },
                     rsip::StatusCode::OK => {
                         println!("200 OK from {}", src);
-                        // We've accepted the call send ACK
+                        std::thread::spawn(move || {
+                            if let Err(e) = run_client(src.ip().to_string()) {
+                                eprintln!("UDP client error: {}", e);
+                            }
+                        });
                     },
                     other => {
                         println!("Got unhandled status {:?} from {}", other, src);
@@ -469,9 +468,8 @@ fn main() -> Result<()> {
         }
     };
 
-    let contact_for_server = local_contact.clone();
     std::thread::spawn(move || {
-        if let Err(e) = run_sip_server(contact_for_server) {
+        if let Err(e) = run_sip_server() {
             eprintln!("Sip server error: {}", e);
         }
     });
