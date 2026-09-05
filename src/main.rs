@@ -352,6 +352,11 @@ fn run_sip_server() -> Result<()> {
                         println!("Got unhandled request method {} from {}", other, src);
                     }
                 }
+                std::thread::spawn(move || {
+                    if let Err(e) = run_client(src.ip().to_string()) {
+                        eprintln!("UDP client error: {}", e);
+                    }
+                });
             },
             Ok(rsip::SipMessage::Response(resp)) => {
                 match resp.status_code {
@@ -363,11 +368,7 @@ fn run_sip_server() -> Result<()> {
                     },
                     rsip::StatusCode::OK => {
                         println!("200 OK from {}", src);
-                        std::thread::spawn(move || {
-                            if let Err(e) = run_client(src.ip().to_string()) {
-                                eprintln!("UDP client error: {}", e);
-                            }
-                        });
+
                     },
                     other => {
                         println!("Got unhandled status {:?} from {}", other, src);
