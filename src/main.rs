@@ -111,7 +111,7 @@ fn run_server(call_id: &String) -> Result<()> {
 
             for frame in data.chunks_mut(output_channels) {
                 let l = consumer.try_pop().unwrap_or(0) as i32;
-                let r = consumer.try_pop().unwrap_or(0) as i32;
+                let rtyped_callid = consumer.try_pop().unwrap_or(0) as i32;
                 let mixed = ((l + r) / 2) as i16;
 
                 for channel_sample in frame.iter_mut() {
