@@ -1,0 +1,290 @@
+cargo:rerun-if-env-changed=ANDROID_NDK_HOME
+1.13.2
+CMAKE_TOOLCHAIN_FILE_x86_64-unknown-linux-gnu = None
+CMAKE_TOOLCHAIN_FILE_x86_64_unknown_linux_gnu = None
+HOST_CMAKE_TOOLCHAIN_FILE = None
+CMAKE_TOOLCHAIN_FILE = None
+CMAKE_PREFIX_PATH_x86_64-unknown-linux-gnu = None
+CMAKE_PREFIX_PATH_x86_64_unknown_linux_gnu = None
+HOST_CMAKE_PREFIX_PATH = None
+CMAKE_PREFIX_PATH = None
+CMAKE_x86_64-unknown-linux-gnu = None
+CMAKE_x86_64_unknown_linux_gnu = None
+HOST_CMAKE = None
+CMAKE = None
+-- Found Git: /usr/bin/git (found version "2.55.0")
+-- Opus package version from package_version file: 1.6.1
+-- Opus project version: 1.6.1
+-- The C compiler identification is GNU 16.2.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Performing Test VLA_SUPPORTED
+-- Performing Test VLA_SUPPORTED -- success
+-- Looking for alloca.h
+-- Looking for alloca.h - found
+-- Looking for alloca
+-- Looking for alloca - found
+-- Looking for floor in m
+-- Looking for floor in m - found
+-- Looking for lrintf
+-- Looking for lrintf - found
+-- Looking for lrint
+-- Looking for lrint - found
+-- Looking for elf_aux_info
+-- Looking for elf_aux_info - not found
+-- Performing Test CPU_INFO_BY_ASM_SUPPORTED
+-- Performing Test CPU_INFO_BY_ASM_SUPPORTED -- success
+-- Looking for cpuid.h
+-- Looking for cpuid.h - found
+-- Performing Test CPU_INFO_BY_C_SUPPORTED
+-- Performing Test CPU_INFO_BY_C_SUPPORTED -- success
+-- Check SIMD support by compiler
+-- Looking for xmmintrin.h
+-- Looking for xmmintrin.h - found
+-- Performing Test SSE1_SUPPORTED
+-- Performing Test SSE1_SUPPORTED - Success
+-- Looking for emmintrin.h
+-- Looking for emmintrin.h - found
+-- Performing Test SSE2_SUPPORTED
+-- Performing Test SSE2_SUPPORTED - Success
+-- Looking for smmintrin.h
+-- Looking for smmintrin.h - found
+-- Performing Test SSE4_1_SUPPORTED
+-- Performing Test SSE4_1_SUPPORTED - Success
+-- Looking for immintrin.h
+-- Looking for immintrin.h - found
+-- Performing Test AVX2_SUPPORTED
+-- Performing Test AVX2_SUPPORTED - Success
+-- Performing Test FAST_MATH_SUPPORTED
+-- Performing Test FAST_MATH_SUPPORTED - Success
+-- Performing Test STACK_PROTECTOR_SUPPORTED
+-- Performing Test STACK_PROTECTOR_SUPPORTED - Success
+-- Performing Test HIDDEN_VISIBILITY_SUPPORTED
+-- Performing Test HIDDEN_VISIBILITY_SUPPORTED - Success
+-- Performing Test Wall_SUPPORTED
+-- Performing Test Wall_SUPPORTED - Success
+-- Performing Test W_SUPPORTED
+-- Performing Test W_SUPPORTED - Success
+-- Performing Test Wstrictprototypes_SUPPORTED
+-- Performing Test Wstrictprototypes_SUPPORTED - Success
+-- Performing Test Wextra_SUPPORTED
+-- Performing Test Wextra_SUPPORTED - Success
+-- Performing Test Wcastalign_SUPPORTED
+-- Performing Test Wcastalign_SUPPORTED - Success
+-- Performing Test Wnestedexterns_SUPPORTED
+-- Performing Test Wnestedexterns_SUPPORTED - Success
+-- Performing Test Wshadow_SUPPORTED
+-- Performing Test Wshadow_SUPPORTED - Success
+-- The following features have been enabled:
+
+ * OPUS_ENABLE_FLOAT_API, compile with the floating point API (for machines with float library).
+ * OPUS_HARDENING, run-time checks that are cheap and safe for use in production.
+ * OPUS_VAR_ARRAYS, use variable length arrays for stack arrays.
+ * OPUS_STACK_PROTECTOR, use stack protection.
+ * OPUS_FORTIFY_SOURCE, add protection against buffer overflows.
+ * OPUS_X86_MAY_HAVE_SSE, does runtime check for SSE1 support.
+ * OPUS_X86_MAY_HAVE_SSE2, does runtime check for SSE2 support.
+ * OPUS_X86_MAY_HAVE_SSE4_1, does runtime check for SSE4.1 support.
+ * OPUS_X86_MAY_HAVE_AVX2, does runtime check for AVX FMA AVX2 support.
+ * OPUS_X86_PRESUME_SSE, assume target CPU has SSE1 support (override runtime check).
+ * OPUS_X86_PRESUME_SSE2, assume target CPU has SSE2 support (override runtime check).
+
+-- The following OPTIONAL packages have been found:
+
+ * Git
+
+-- The following features have been disabled:
+
+ * OPUS_BUILD_SHARED_LIBRARY, build shared library.
+ * OPUS_BUILD_TESTING, build tests.
+ * OPUS_CUSTOM_MODES, enable non-Opus modes, e.g. 44.1 kHz & 2^n frames.
+ * OPUS_BUILD_PROGRAMS, build programs.
+ * OPUS_DISABLE_INTRINSICS, disable all intrinsics optimizations.
+ * OPUS_FIXED_POINT, compile as fixed-point (for machines without a fast enough FPU).
+ * OPUS_FLOAT_APPROX, enable floating point approximations (Ensure your platform supports IEEE 754 before enabling).
+ * OPUS_ASSERTIONS, additional software error checking.
+ * OPUS_FUZZING, causes the encoder to make random decisions (do not use in production).
+ * OPUS_CHECK_ASM, enable bit-exactness checks between optimized and c implementations.
+ * OPUS_DNN_FLOAT_DEBUG, Run DNN computations as float for debugging purposes.
+ * OPUS_INSTALL_PKG_CONFIG_MODULE, install pkg-config module.
+ * OPUS_INSTALL_CMAKE_CONFIG_MODULE, install CMake package config module.
+ * OPUS_DRED, enable DRED.
+ * OPUS_OSCE, enable OSCE.
+ * OPUS_FIXED_POINT_DEBUG, debug fixed-point implementation.
+ * OPUS_USE_ALLOCA, use alloca for stack arrays (on non-C99 compilers).
+ * OPUS_NONTHREADSAFE_PSEUDOSTACK, use a non threadsafe pseudostack when neither variable length arrays or alloca is supported.
+ * OPUS_FAST_MATH, enable fast math (unsupported and discouraged use, as code is not well tested with this build option).
+ * OPUS_X86_PRESUME_SSE4_1, assume target CPU has SSE4.1 support (override runtime check).
+ * OPUS_X86_PRESUME_AVX2, assume target CPU has AVX FMA AVX2 support (override runtime check).
+
+-- Configuring done (1.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build
+[1/154] Building C object CMakeFiles/opus.dir/src/mlp_data.c.o
+[2/154] Building C object CMakeFiles/opus.dir/silk/init_decoder.c.o
+[3/154] Building C object CMakeFiles/opus.dir/silk/decoder_set_fs.c.o
+[4/154] Building C object CMakeFiles/opus.dir/silk/decode_frame.c.o
+[5/154] Building C object CMakeFiles/opus.dir/silk/decode_pulses.c.o
+[6/154] Building C object CMakeFiles/opus.dir/src/opus_multistream.c.o
+[7/154] Building C object CMakeFiles/opus.dir/silk/decode_indices.c.o
+[8/154] Building C object CMakeFiles/opus.dir/silk/code_signs.c.o
+[9/154] Building C object CMakeFiles/opus.dir/silk/decode_parameters.c.o
+[10/154] Building C object CMakeFiles/opus.dir/silk/encode_indices.c.o
+[11/154] Building C object CMakeFiles/opus.dir/silk/interpolate.c.o
+[12/154] Building C object CMakeFiles/opus.dir/src/opus_projection_decoder.c.o
+[13/154] Building C object CMakeFiles/opus.dir/silk/gain_quant.c.o
+[14/154] Building C object CMakeFiles/opus.dir/silk/LP_variable_cutoff.c.o
+[15/154] Building C object CMakeFiles/opus.dir/silk/NLSF_decode.c.o
+[16/154] Building C object CMakeFiles/opus.dir/src/opus_projection_encoder.c.o
+[17/154] Building C object CMakeFiles/opus.dir/silk/tables_gain.c.o
+[18/154] Building C object CMakeFiles/opus.dir/silk/tables_LTP.c.o
+[19/154] Building C object CMakeFiles/opus.dir/silk/tables_NLSF_CB_NB_MB.c.o
+[20/154] Building C object CMakeFiles/opus.dir/silk/tables_NLSF_CB_WB.c.o
+[21/154] Building C object CMakeFiles/opus.dir/silk/tables_other.c.o
+[22/154] Building C object CMakeFiles/opus.dir/silk/decode_core.c.o
+[23/154] Building C object CMakeFiles/opus.dir/src/opus.c.o
+[24/154] Building C object CMakeFiles/opus.dir/silk/encode_pulses.c.o
+[25/154] Building C object CMakeFiles/opus.dir/silk/CNG.c.o
+[26/154] Building C object CMakeFiles/opus.dir/silk/tables_pitch_lag.c.o
+[27/154] Building C object CMakeFiles/opus.dir/silk/tables_pulses_per_block.c.o
+[28/154] Building C object CMakeFiles/opus.dir/src/repacketizer.c.o
+[29/154] Building C object CMakeFiles/opus.dir/silk/shell_coder.c.o
+[30/154] Building C object CMakeFiles/opus.dir/src/opus_multistream_decoder.c.o
+[31/154] Building C object CMakeFiles/opus.dir/silk/control_audio_bandwidth.c.o
+[32/154] Building C object CMakeFiles/opus.dir/silk/dec_API.c.o
+[33/154] Building C object CMakeFiles/opus.dir/silk/VQ_WMat_EC.c.o
+[34/154] Building C object CMakeFiles/opus.dir/silk/HP_variable_cutoff.c.o
+[35/154] Building C object CMakeFiles/opus.dir/silk/quant_LTP_gains.c.o
+[36/154] Building C object CMakeFiles/opus.dir/silk/NLSF_unpack.c.o
+[37/154] Building C object CMakeFiles/opus.dir/silk/NLSF_VQ.c.o
+[38/154] Building C object CMakeFiles/opus.dir/src/mlp.c.o
+[39/154] Building C object CMakeFiles/opus.dir/src/mapping_matrix.c.o
+[40/154] Building C object CMakeFiles/opus.dir/src/extensions.c.o
+[41/154] Building C object CMakeFiles/opus.dir/silk/NLSF_encode.c.o
+[42/154] Building C object CMakeFiles/opus.dir/silk/control_SNR.c.o
+[43/154] Building C object CMakeFiles/opus.dir/silk/debug.c.o
+[44/154] Building C object CMakeFiles/opus.dir/silk/process_NLSFs.c.o
+[45/154] Building C object CMakeFiles/opus.dir/silk/check_control_input.c.o
+[46/154] Building C object CMakeFiles/opus.dir/silk/NSQ.c.o
+[47/154] Building C object CMakeFiles/opus.dir/silk/bwexpander_32.c.o
+[48/154] Building C object CMakeFiles/opus.dir/silk/bwexpander.c.o
+[49/154] Building C object CMakeFiles/opus.dir/silk/init_encoder.c.o
+[50/154] Building C object CMakeFiles/opus.dir/silk/ana_filt_bank_1.c.o
+[51/154] Building C object CMakeFiles/opus.dir/silk/log2lin.c.o
+[52/154] Building C object CMakeFiles/opus.dir/silk/lin2log.c.o
+[53/154] Building C object CMakeFiles/opus.dir/silk/inner_prod_aligned.c.o
+[54/154] Building C object CMakeFiles/opus.dir/silk/decode_pitch.c.o
+[55/154] Building C object CMakeFiles/opus.dir/silk/biquad_alt.c.o
+[56/154] Building C object CMakeFiles/opus.dir/silk/table_LSF_cos.c.o
+[57/154] Building C object CMakeFiles/opus.dir/silk/PLC.c.o
+[58/154] Building C object CMakeFiles/opus.dir/silk/pitch_est_tables.c.o
+[59/154] Building C object CMakeFiles/opus.dir/silk/stereo_MS_to_LR.c.o
+[60/154] Building C object CMakeFiles/opus.dir/silk/LPC_analysis_filter.c.o
+[61/154] Building C object CMakeFiles/opus.dir/silk/VAD.c.o
+[62/154] Building C object CMakeFiles/opus.dir/silk/NLSF_VQ_weights_laroia.c.o
+[63/154] Building C object CMakeFiles/opus.dir/silk/NLSF_del_dec_quant.c.o
+[64/154] Building C object CMakeFiles/opus.dir/silk/resampler_private_AR2.c.o
+[65/154] Building C object CMakeFiles/opus.dir/silk/resampler_rom.c.o
+[66/154] Building C object CMakeFiles/opus.dir/silk/LPC_inv_pred_gain.c.o
+[67/154] Building C object CMakeFiles/opus.dir/silk/resampler_down2.c.o
+[68/154] Building C object CMakeFiles/opus.dir/silk/enc_API.c.o
+[69/154] Building C object CMakeFiles/opus.dir/silk/control_codec.c.o
+[70/154] Building C object CMakeFiles/opus.dir/silk/sigm_Q15.c.o
+[71/154] Building C object CMakeFiles/opus.dir/silk/resampler_down2_3.c.o
+[72/154] Building C object CMakeFiles/opus.dir/silk/resampler_private_IIR_FIR.c.o
+[73/154] Building C object CMakeFiles/opus.dir/silk/resampler.c.o
+[74/154] Building C object CMakeFiles/opus.dir/silk/resampler_private_up2_HQ.c.o
+[75/154] Building C object CMakeFiles/opus.dir/silk/NLSF_stabilize.c.o
+[76/154] Building C object CMakeFiles/opus.dir/silk/stereo_decode_pred.c.o
+[77/154] Building C object CMakeFiles/opus.dir/silk/NLSF2A.c.o
+[78/154] Building C object CMakeFiles/opus.dir/silk/stereo_encode_pred.c.o
+[79/154] Building C object CMakeFiles/opus.dir/silk/sort.c.o
+[80/154] Building C object CMakeFiles/opus.dir/src/opus_decoder.c.o
+[81/154] Building C object CMakeFiles/opus.dir/celt/entcode.c.o
+[82/154] Building C object CMakeFiles/opus.dir/silk/stereo_quant_pred.c.o
+[83/154] Building C object CMakeFiles/opus.dir/silk/resampler_private_down_FIR.c.o
+[84/154] Building C object CMakeFiles/opus.dir/silk/stereo_find_predictor.c.o
+[85/154] Building C object CMakeFiles/opus.dir/silk/sum_sqr_shift.c.o
+[86/154] Building C object CMakeFiles/opus.dir/silk/stereo_LR_to_MS.c.o
+[87/154] Building C object CMakeFiles/opus.dir/celt/celt.c.o
+[88/154] Building C object CMakeFiles/opus.dir/silk/LPC_fit.c.o
+[89/154] Building C object CMakeFiles/opus.dir/celt/cwrs.c.o
+[90/154] Building C object CMakeFiles/opus.dir/celt/laplace.c.o
+[91/154] Building C object CMakeFiles/opus.dir/celt/entdec.c.o
+[92/154] Building C object CMakeFiles/opus.dir/celt/mathops.c.o
+[93/154] Building C object CMakeFiles/opus.dir/celt/modes.c.o
+[94/154] Building C object CMakeFiles/opus.dir/silk/A2NLSF.c.o
+[95/154] Building C object CMakeFiles/opus.dir/celt/entenc.c.o
+[96/154] Building C object CMakeFiles/opus.dir/silk/float/find_LTP_FLP.c.o
+[97/154] Building C object CMakeFiles/opus.dir/silk/float/find_LPC_FLP.c.o
+[98/154] Building C object CMakeFiles/opus.dir/silk/float/corrMatrix_FLP.c.o
+[99/154] Building C object CMakeFiles/opus.dir/silk/float/apply_sine_window_FLP.c.o
+[100/154] Building C object CMakeFiles/opus.dir/silk/float/find_pred_coefs_FLP.c.o
+[101/154] Building C object CMakeFiles/opus.dir/src/opus_multistream_encoder.c.o
+[102/154] Building C object CMakeFiles/opus.dir/silk/float/find_pitch_lags_FLP.c.o
+[103/154] Building C object CMakeFiles/opus.dir/silk/float/LTP_scale_ctrl_FLP.c.o
+[104/154] Building C object CMakeFiles/opus.dir/silk/float/LTP_analysis_filter_FLP.c.o
+[105/154] Building C object CMakeFiles/opus.dir/silk/float/regularize_correlations_FLP.c.o
+[106/154] Building C object CMakeFiles/opus.dir/src/analysis.c.o
+[107/154] Building C object CMakeFiles/opus.dir/silk/float/process_gains_FLP.c.o
+[108/154] Building C object CMakeFiles/opus.dir/silk/NSQ_del_dec.c.o
+[109/154] Building C object CMakeFiles/opus.dir/celt/mdct.c.o
+[110/154] Building C object CMakeFiles/opus.dir/celt/celt_lpc.c.o
+[111/154] Building C object CMakeFiles/opus.dir/celt/kiss_fft.c.o
+[112/154] Building C object CMakeFiles/opus.dir/silk/float/residual_energy_FLP.c.o
+[113/154] Building C object CMakeFiles/opus.dir/silk/float/autocorrelation_FLP.c.o
+[114/154] Building C object CMakeFiles/opus.dir/silk/float/warped_autocorrelation_FLP.c.o
+[115/154] Building C object CMakeFiles/opus.dir/silk/float/bwexpander_FLP.c.o
+[116/154] Building C object CMakeFiles/opus.dir/celt/pitch.c.o
+[117/154] Building C object CMakeFiles/opus.dir/silk/float/energy_FLP.c.o
+[118/154] Building C object CMakeFiles/opus.dir/celt/quant_bands.c.o
+[119/154] Building C object CMakeFiles/opus.dir/silk/float/LPC_analysis_filter_FLP.c.o
+[120/154] Building C object CMakeFiles/opus.dir/celt/vq.c.o
+[121/154] Building C object CMakeFiles/opus.dir/silk/float/inner_product_FLP.c.o
+[122/154] Building C object CMakeFiles/opus.dir/silk/x86/x86_silk_map.c.o
+[123/154] Building C object CMakeFiles/opus.dir/celt/x86/x86_celt_map.c.o
+[124/154] Building C object CMakeFiles/opus.dir/silk/float/k2a_FLP.c.o
+[125/154] Building C object CMakeFiles/opus.dir/silk/float/scale_vector_FLP.c.o
+[126/154] Building C object CMakeFiles/opus.dir/silk/float/noise_shape_analysis_FLP.c.o
+[127/154] Building C object CMakeFiles/opus.dir/silk/float/LPC_inv_pred_gain_FLP.c.o
+[128/154] Building C object CMakeFiles/opus.dir/silk/float/scale_copy_vector_FLP.c.o
+[129/154] Building C object CMakeFiles/opus.dir/celt/x86/x86cpu.c.o
+[130/154] Building C object CMakeFiles/opus.dir/silk/float/sort_FLP.c.o
+[131/154] Building C object CMakeFiles/opus.dir/celt/x86/pitch_sse4_1.c.o
+[132/154] Building C object CMakeFiles/opus.dir/celt/x86/pitch_sse2.c.o
+[133/154] Building C object CMakeFiles/opus.dir/celt/rate.c.o
+[134/154] Building C object CMakeFiles/opus.dir/silk/float/schur_FLP.c.o
+[135/154] Building C object CMakeFiles/opus.dir/silk/float/wrappers_FLP.c.o
+[136/154] Building C object CMakeFiles/opus.dir/silk/float/encode_frame_FLP.c.o
+[137/154] Building C object CMakeFiles/opus.dir/celt/x86/celt_lpc_sse4_1.c.o
+[138/154] Building C object CMakeFiles/opus.dir/celt/x86/pitch_sse.c.o
+[139/154] Building C object CMakeFiles/opus.dir/silk/x86/VQ_WMat_EC_sse4_1.c.o
+[140/154] Building C object CMakeFiles/opus.dir/celt/x86/vq_sse2.c.o
+[141/154] Building C object CMakeFiles/opus.dir/silk/x86/VAD_sse4_1.c.o
+[142/154] Building C object CMakeFiles/opus.dir/silk/float/burg_modified_FLP.c.o
+[143/154] Building C object CMakeFiles/opus.dir/silk/float/pitch_analysis_core_FLP.c.o
+[144/154] Building C object CMakeFiles/opus.dir/celt/celt_decoder.c.o
+[145/154] Building C object CMakeFiles/opus.dir/silk/x86/NSQ_sse4_1.c.o
+[146/154] Building C object CMakeFiles/opus.dir/src/opus_encoder.c.o
+[147/154] Building C object CMakeFiles/opus.dir/celt/bands.c.o
+[148/154] Building C object CMakeFiles/opus.dir/silk/float/x86/inner_product_FLP_avx2.c.o
+[149/154] Building C object CMakeFiles/opus.dir/celt/x86/pitch_avx.c.o
+[150/154] Building C object CMakeFiles/opus.dir/silk/x86/NSQ_del_dec_sse4_1.c.o
+[151/154] Building C object CMakeFiles/opus.dir/silk/x86/NSQ_del_dec_avx2.c.o
+[152/154] Building C object CMakeFiles/opus.dir/celt/celt_encoder.c.o
+[153/154] Linking C static library libopus.a
+[153/154] Install the project...
+-- Install configuration: "Release"
+-- Installing: /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/lib/libopus.a
+-- Installing: /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/include/opus/opus.h
+-- Installing: /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/include/opus/opus_defines.h
+-- Installing: /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/include/opus/opus_multistream.h
+-- Installing: /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/include/opus/opus_projection.h
+-- Installing: /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/include/opus/opus_types.h
+cargo:root=/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out
+cargo:rustc-link-lib=static=opus
+cargo:rustc-link-search=native=/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/lib
+cargo:rustc-link-search=native=/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/lib64

@@ -1,0 +1,20 @@
+{
+  "contacts": [
+    {
+      "username": "Motmir",
+      "ip": "192.168.1.103"
+    },
+    {
+      "username": "Fedora",
+      "ip": "192.168.1.200"
+    },
+    {
+      "username": "motmir_pub",
+      "ip": "51.175.220.183"
+    },
+    {
+      "username": "Matteo",
+      "ip": "178.232.59.67"
+    }
+  ]
+}

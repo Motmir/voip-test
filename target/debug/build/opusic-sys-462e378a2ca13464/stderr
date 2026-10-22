@@ -1,0 +1,11 @@
+running: cd "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build" && CMAKE_PREFIX_PATH="" LC_ALL="C" "cmake" "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus" "-B" "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build" "-G" "Ninja" "-DOPUS_INSTALL_PKG_CONFIG_MODULE=OFF" "-DOPUS_INSTALL_CMAKE_CONFIG_MODULE=OFF" "-DCMAKE_INSTALL_BINDIR=bin" "-DCMAKE_INSTALL_MANDIR=man" "-DCMAKE_INSTALL_INCLUDEDIR=include" "-DCMAKE_INSTALL_OLDINCLUDEDIR=include" "-DCMAKE_INSTALL_LIBDIR=lib" "-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY" "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=OFF" "-DCMAKE_BUILD_TYPE=Release" "-DOPUS_DRED=OFF" "-DOPUS_OSCE=OFF" "-DOPUS_HARDENING=ON" "-DOPUS_STACK_PROTECTOR=ON" "-DOPUS_FORTIFY_SOURCE=ON" "-DOPUS_DISABLE_INTRINSICS=OFF" "-DOPUS_FIXED_POINT=OFF" "-DOPUS_X86_PRESUME_SSE=ON" "-DOPUS_X86_PRESUME_SSE2=ON" "-DOPUS_X86_PRESUME_SSE4_1=OFF" "-DOPUS_X86_PRESUME_AVX2=OFF" "-DOPUS_X86_MAY_HAVE_SSE=ON" "-DOPUS_X86_MAY_HAVE_SSE2=ON" "-DOPUS_X86_MAY_HAVE_SSE4_1=ON" "-DOPUS_X86_MAY_HAVE_AVX2=ON" "-DCMAKE_INSTALL_PREFIX=/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out" "-DCMAKE_C_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64 -w" "-DCMAKE_C_COMPILER=/usr/bin/cc" "-DCMAKE_CXX_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64 -w" "-DCMAKE_CXX_COMPILER=/usr/bin/c++" "-DCMAKE_ASM_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64 -w" "-DCMAKE_ASM_COMPILER=/usr/bin/cc"
+CMake Warning (unused-cli):
+  Manually-specified variables were not used by the project:
+
+    CMAKE_ASM_COMPILER
+    CMAKE_ASM_FLAGS
+    CMAKE_CXX_COMPILER
+    CMAKE_CXX_FLAGS
+
+
+running: cd "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build" && LC_ALL="C" "cmake" "--build" "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build" "--target" "install" "--config" "Debug" "--parallel" "24"

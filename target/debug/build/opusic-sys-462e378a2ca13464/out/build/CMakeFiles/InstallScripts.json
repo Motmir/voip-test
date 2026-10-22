@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

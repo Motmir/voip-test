@@ -1,0 +1,7 @@
+/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/opus.dir
+/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/edit_cache.dir
+/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/rebuild_cache.dir
+/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/list_install_components.dir
+/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/install.dir
+/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/install/local.dir
+/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/install/strip.dir

@@ -1,0 +1,1895 @@
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/FindGit.cmake:111 (find_program)"
+      - "cmake/OpusPackageVersion.cmake:8 (find_package)"
+      - "CMakeLists.txt:5 (get_package_version)"
+    mode: "program"
+    variable: "GIT_EXECUTABLE"
+    description: "Git command line client"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "git"
+    candidate_directories:
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    searched_directories:
+      - "/home/motmir/.cargo/bin/git"
+      - "/usr/local/bin/git"
+    found: "/usr/bin/git"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineSystem.cmake:12 (find_program)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_UNAME"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "uname"
+    candidate_directories:
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    searched_directories:
+      - "/home/motmir/.cargo/bin/uname"
+      - "/usr/local/bin/uname"
+    found: "/usr/bin/uname"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineSystem.cmake:218 (message)"
+      - "CMakeLists.txt:7 (project)"
+    message: |
+      The system is: Linux - 7.1.6-1-cachyos - x86_64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeNinjaFindMake.cmake:5 (find_program)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_MAKE_PROGRAM"
+    description: "Program used to build from build.ninja files."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ninja-build"
+      - "ninja"
+      - "samu"
+    candidate_directories:
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    searched_directories:
+      - "/home/motmir/.cargo/bin/ninja-build"
+      - "/home/motmir/.cargo/bin/ninja"
+      - "/home/motmir/.cargo/bin/samu"
+      - "/usr/local/bin/ninja-build"
+      - "/usr/local/bin/ninja"
+      - "/usr/local/bin/samu"
+      - "/usr/bin/ninja-build"
+    found: "/usr/bin/ninja"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:501 (find_file)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:538 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "/usr/share/cmake/Modules/"
+      - "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake/"
+    found: "/usr/share/cmake/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:7 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /usr/bin/cc 
+      Build flags: -ffunction-sections;-fdata-sections;-fPIC;-m64;-w
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+      
+      The C compiler identification is GNU, found in:
+        /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/4.4.3/CompilerIdC/a.out
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ar"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/ar"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_RANLIB"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ranlib"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/ranlib"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_STRIP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "strip"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/strip"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ld"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/ld"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_NM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "nm"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/nm"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJDUMP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "objdump"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/objdump"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJCOPY"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "objcopy"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/objcopy"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_READELF"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "readelf"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/readelf"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_DLLTOOL"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "dlltool"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    searched_directories:
+      - "/usr/bin/dlltool"
+      - "/home/motmir/.cargo/bin/dlltool"
+      - "/usr/local/bin/dlltool"
+      - "/bin/dlltool"
+      - "/usr/local/sbin/dlltool"
+      - "/usr/share/dotnet/dlltool"
+      - "/home/motmir/.dotnet/tools/dlltool"
+      - "/var/lib/flatpak/exports/bin/dlltool"
+      - "/usr/bin/site_perl/dlltool"
+      - "/usr/bin/vendor_perl/dlltool"
+      - "/usr/bin/core_perl/dlltool"
+      - "/opt/rocm/bin/dlltool"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_ADDR2LINE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "addr2line"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    found: "/usr/bin/addr2line"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_TAPI"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "tapi"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    searched_directories:
+      - "/usr/bin/tapi"
+      - "/home/motmir/.cargo/bin/tapi"
+      - "/usr/local/bin/tapi"
+      - "/bin/tapi"
+      - "/usr/local/sbin/tapi"
+      - "/usr/share/dotnet/tapi"
+      - "/home/motmir/.dotnet/tools/tapi"
+      - "/var/lib/flatpak/exports/bin/tapi"
+      - "/usr/bin/site_perl/tapi"
+      - "/usr/bin/vendor_perl/tapi"
+      - "/usr/bin/core_perl/tapi"
+      - "/opt/rocm/bin/tapi"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake:18 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_AR"
+    description: "A wrapper around 'ar' adding the appropriate '--plugin' option for the GCC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gcc-ar-16.2"
+      - "gcc-ar-16"
+      - "gcc-ar16"
+      - "gcc-ar"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    searched_directories:
+      - "/usr/bin/gcc-ar-16.2"
+      - "/home/motmir/.cargo/bin/gcc-ar-16.2"
+      - "/usr/local/bin/gcc-ar-16.2"
+      - "/bin/gcc-ar-16.2"
+      - "/usr/local/sbin/gcc-ar-16.2"
+      - "/usr/share/dotnet/gcc-ar-16.2"
+      - "/home/motmir/.dotnet/tools/gcc-ar-16.2"
+      - "/var/lib/flatpak/exports/bin/gcc-ar-16.2"
+      - "/usr/bin/site_perl/gcc-ar-16.2"
+      - "/usr/bin/vendor_perl/gcc-ar-16.2"
+      - "/usr/bin/core_perl/gcc-ar-16.2"
+      - "/opt/rocm/bin/gcc-ar-16.2"
+      - "/usr/bin/gcc-ar-16"
+      - "/home/motmir/.cargo/bin/gcc-ar-16"
+      - "/usr/local/bin/gcc-ar-16"
+      - "/bin/gcc-ar-16"
+      - "/usr/local/sbin/gcc-ar-16"
+      - "/usr/share/dotnet/gcc-ar-16"
+      - "/home/motmir/.dotnet/tools/gcc-ar-16"
+      - "/var/lib/flatpak/exports/bin/gcc-ar-16"
+      - "/usr/bin/site_perl/gcc-ar-16"
+      - "/usr/bin/vendor_perl/gcc-ar-16"
+      - "/usr/bin/core_perl/gcc-ar-16"
+      - "/opt/rocm/bin/gcc-ar-16"
+      - "/usr/bin/gcc-ar16"
+      - "/home/motmir/.cargo/bin/gcc-ar16"
+      - "/usr/local/bin/gcc-ar16"
+      - "/bin/gcc-ar16"
+      - "/usr/local/sbin/gcc-ar16"
+      - "/usr/share/dotnet/gcc-ar16"
+      - "/home/motmir/.dotnet/tools/gcc-ar16"
+      - "/var/lib/flatpak/exports/bin/gcc-ar16"
+      - "/usr/bin/site_perl/gcc-ar16"
+      - "/usr/bin/vendor_perl/gcc-ar16"
+      - "/usr/bin/core_perl/gcc-ar16"
+      - "/opt/rocm/bin/gcc-ar16"
+    found: "/usr/bin/gcc-ar"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake:30 (find_program)"
+      - "/usr/share/cmake/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "CMakeLists.txt:7 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_RANLIB"
+    description: "A wrapper around 'ranlib' adding the appropriate '--plugin' option for the GCC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "gcc-ranlib-16.2"
+      - "gcc-ranlib-16"
+      - "gcc-ranlib16"
+      - "gcc-ranlib"
+    candidate_directories:
+      - "/usr/bin/"
+      - "/home/motmir/.cargo/bin/"
+      - "/usr/local/bin/"
+      - "/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/share/dotnet/"
+      - "/home/motmir/.dotnet/tools/"
+      - "/var/lib/flatpak/exports/bin/"
+      - "/usr/bin/site_perl/"
+      - "/usr/bin/vendor_perl/"
+      - "/usr/bin/core_perl/"
+      - "/opt/rocm/bin/"
+    searched_directories:
+      - "/usr/bin/gcc-ranlib-16.2"
+      - "/home/motmir/.cargo/bin/gcc-ranlib-16.2"
+      - "/usr/local/bin/gcc-ranlib-16.2"
+      - "/bin/gcc-ranlib-16.2"
+      - "/usr/local/sbin/gcc-ranlib-16.2"
+      - "/usr/share/dotnet/gcc-ranlib-16.2"
+      - "/home/motmir/.dotnet/tools/gcc-ranlib-16.2"
+      - "/var/lib/flatpak/exports/bin/gcc-ranlib-16.2"
+      - "/usr/bin/site_perl/gcc-ranlib-16.2"
+      - "/usr/bin/vendor_perl/gcc-ranlib-16.2"
+      - "/usr/bin/core_perl/gcc-ranlib-16.2"
+      - "/opt/rocm/bin/gcc-ranlib-16.2"
+      - "/usr/bin/gcc-ranlib-16"
+      - "/home/motmir/.cargo/bin/gcc-ranlib-16"
+      - "/usr/local/bin/gcc-ranlib-16"
+      - "/bin/gcc-ranlib-16"
+      - "/usr/local/sbin/gcc-ranlib-16"
+      - "/usr/share/dotnet/gcc-ranlib-16"
+      - "/home/motmir/.dotnet/tools/gcc-ranlib-16"
+      - "/var/lib/flatpak/exports/bin/gcc-ranlib-16"
+      - "/usr/bin/site_perl/gcc-ranlib-16"
+      - "/usr/bin/vendor_perl/gcc-ranlib-16"
+      - "/usr/bin/core_perl/gcc-ranlib-16"
+      - "/opt/rocm/bin/gcc-ranlib-16"
+      - "/usr/bin/gcc-ranlib16"
+      - "/home/motmir/.cargo/bin/gcc-ranlib16"
+      - "/usr/local/bin/gcc-ranlib16"
+      - "/bin/gcc-ranlib16"
+      - "/usr/local/sbin/gcc-ranlib16"
+      - "/usr/share/dotnet/gcc-ranlib16"
+      - "/home/motmir/.dotnet/tools/gcc-ranlib16"
+      - "/var/lib/flatpak/exports/bin/gcc-ranlib16"
+      - "/usr/bin/site_perl/gcc-ranlib16"
+      - "/usr/bin/vendor_perl/gcc-ranlib16"
+      - "/usr/bin/core_perl/gcc-ranlib16"
+      - "/opt/rocm/bin/gcc-ranlib16"
+    found: "/usr/bin/gcc-ranlib"
+    search_context:
+      ENV{PATH}:
+        - "/home/motmir/.cargo/bin"
+        - "/usr/local/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/local/sbin"
+        - "/usr/share/dotnet"
+        - "/home/motmir/.dotnet/tools"
+        - "/var/lib/flatpak/exports/bin"
+        - "/usr/bin/site_perl"
+        - "/usr/bin/vendor_perl"
+        - "/usr/bin/core_perl"
+        - "/opt/rocm/bin"
+      CMAKE_INSTALL_PREFIX: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:123 (try_compile)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:7 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-oH6qYz"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-oH6qYz"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: false
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-oH6qYz'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_03ec8
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w    -v -o CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+        Using built-in specs.
+        COLLECT_GCC=/usr/bin/cc
+        Target: x86_64-pc-linux-gnu
+        Configured with: ../gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://github.com/CachyOS/CachyOS-PKGBUILDS/issues --with-build-config=bootstrap-lto --with-gcc-major-version-only --with-linker-hash-style=gnu --with-system-zlib --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-fixincludes --disable-libssp --disable-libstdcxx-pch --disable-werror
+        Thread model: posix
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 16.2.1 20260810 (GCC) 
+        COLLECT_GCC_OPTIONS='-ffunction-sections' '-fdata-sections' '-fPIC' '-m64' '-w' '-v' '-o' 'CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_03ec8.dir/'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/16/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_03ec8.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -m64 -mtune=generic -march=x86-64 -w -version -ffunction-sections -fdata-sections -fPIC -o /tmp/cc0HnF6c.s
+        GNU C23 (GCC) version 16.2.1 20260810 (x86_64-pc-linux-gnu)
+        	compiled by GNU C version 16.2.1 20260810, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version isl-0.28-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/16/include-fixed"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../x86_64-pc-linux-gnu/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /usr/lib/gcc/x86_64-pc-linux-gnu/16/include
+         /usr/local/include
+         /usr/include
+        End of search list.
+        Compiler executable checksum: a48c0af3a2776f11d2f29c8a4f4a097f
+        COLLECT_GCC_OPTIONS='-ffunction-sections' '-fdata-sections' '-fPIC' '-m64' '-w' '-v' '-o' 'CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_03ec8.dir/'
+         as -v -W --64 -o CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o /tmp/cc0HnF6c.s
+        GNU assembler version 2.47 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.47
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-ffunction-sections' '-fdata-sections' '-fPIC' '-m64' '-w' '-v' '-o' 'CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.'
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_03ec8.a && /usr/bin/ar qc libcmTC_03ec8.a  CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o && /usr/bin/ranlib libcmTC_03ec8.a && :
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:255 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:7 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/16/include]
+          add: [/usr/local/include]
+          add: [/usr/include]
+        end of search list found
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/16/include] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/16/include]
+        collapse include dir [/usr/local/include] ==> [/usr/local/include]
+        collapse include dir [/usr/include] ==> [/usr/include]
+        implicit include dirs: [/usr/lib/gcc/x86_64-pc-linux-gnu/16/include;/usr/local/include;/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:291 (message)"
+      - "/usr/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:7 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild))("|,| |$)]
+        ignore line: [Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-oH6qYz']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_03ec8]
+        ignore line: [[1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w    -v -o CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/usr/bin/cc]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: ../gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://github.com/CachyOS/CachyOS-PKGBUILDS/issues --with-build-config=bootstrap-lto --with-gcc-major-version-only --with-linker-hash-style=gnu --with-system-zlib --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-fixincludes --disable-libssp --disable-libstdcxx-pch --disable-werror]
+        ignore line: [Thread model: posix]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 16.2.1 20260810 (GCC) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-ffunction-sections' '-fdata-sections' '-fPIC' '-m64' '-w' '-v' '-o' 'CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_03ec8.dir/']
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/16/cc1 -quiet -v /usr/share/cmake/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_03ec8.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -m64 -mtune=generic -march=x86-64 -w -version -ffunction-sections -fdata-sections -fPIC -o /tmp/cc0HnF6c.s]
+        ignore line: [GNU C23 (GCC) version 16.2.1 20260810 (x86_64-pc-linux-gnu)]
+        ignore line: [	compiled by GNU C version 16.2.1 20260810  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version isl-0.28-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/16/include-fixed"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../x86_64-pc-linux-gnu/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/16/include]
+        ignore line: [ /usr/local/include]
+        ignore line: [ /usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: a48c0af3a2776f11d2f29c8a4f4a097f]
+        ignore line: [COLLECT_GCC_OPTIONS='-ffunction-sections' '-fdata-sections' '-fPIC' '-m64' '-w' '-v' '-o' 'CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_03ec8.dir/']
+        ignore line: [ as -v -W --64 -o CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o /tmp/cc0HnF6c.s]
+        ignore line: [GNU assembler version 2.47 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.47]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/16/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-ffunction-sections' '-fdata-sections' '-fPIC' '-m64' '-w' '-v' '-o' 'CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.']
+        ignore line: [[2/2] : && /usr/bin/cmake -E rm -f libcmTC_03ec8.a && /usr/bin/ar qc libcmTC_03ec8.a  CMakeFiles/cmTC_03ec8.dir/CMakeCCompilerABI.c.o && /usr/bin/ranlib libcmTC_03ec8.a && :]
+        ignore line: []
+        ignore line: []
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/CFeatureCheck.cmake:30 (try_compile)"
+      - "cmake/OpusConfig.cmake:27 (c_feature_check)"
+      - "CMakeLists.txt:11 (include)"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "COMPILE_VLA_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_a52eb
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_a52eb.dir/vla.c.o -c /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake/vla.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_a52eb.a && /usr/bin/ar qc libcmTC_a52eb.a  CMakeFiles/cmTC_a52eb.dir/vla.c.o && /usr/bin/ranlib libcmTC_a52eb.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckIncludeFile.cmake:157 (try_compile)"
+      - "cmake/OpusConfig.cmake:30 (check_include_file)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for alloca.h"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-aTOTuc"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-aTOTuc"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_ALLOCA_H"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-aTOTuc'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_4b05f
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_4b05f.dir/CheckIncludeFile.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-aTOTuc/CheckIncludeFile.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_4b05f.a && /usr/bin/ar qc libcmTC_4b05f.a  CMakeFiles/cmTC_4b05f.dir/CheckIncludeFile.c.o && /usr/bin/ranlib libcmTC_4b05f.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:171 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:99 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "cmake/OpusConfig.cmake:35 (check_symbol_exists)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for alloca"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-C5ETJJ"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-C5ETJJ"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "USE_ALLOCA_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-C5ETJJ'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_e2451
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_e2451.dir/CheckSymbolExists.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-C5ETJJ/CheckSymbolExists.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_e2451.a && /usr/bin/ar qc libcmTC_e2451.a  CMakeFiles/cmTC_e2451.dir/CheckSymbolExists.c.o && /usr/bin/ranlib libcmTC_e2451.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckLibraryExists.cmake:142 (try_compile)"
+      - "cmake/OpusConfig.cmake:43 (check_library_exists)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for floor in m"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-9Idg9y"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-9Idg9y"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_LIBM"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-9Idg9y'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_b1df0
+        [1/2] /usr/bin/cc -DCHECK_FUNCTION_EXISTS=floor  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_b1df0.dir/CheckFunctionExists.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-9Idg9y/CheckFunctionExists.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_b1df0.a && /usr/bin/ar qc libcmTC_b1df0.a  CMakeFiles/cmTC_b1df0.dir/CheckFunctionExists.c.o && /usr/bin/ranlib libcmTC_b1df0.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:171 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:99 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "cmake/OpusConfig.cmake:49 (check_symbol_exists)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for lrintf"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-eDD4Et"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-eDD4Et"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_LRINTF"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-eDD4Et'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_0cca7
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_0cca7.dir/CheckSymbolExists.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-eDD4Et/CheckSymbolExists.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_0cca7.a && /usr/bin/ar qc libcmTC_0cca7.a  CMakeFiles/cmTC_0cca7.dir/CheckSymbolExists.c.o && /usr/bin/ranlib libcmTC_0cca7.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:171 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:99 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "cmake/OpusConfig.cmake:50 (check_symbol_exists)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for lrint"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-LGJm2H"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-LGJm2H"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_LRINT"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-LGJm2H'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_4a5c0
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_4a5c0.dir/CheckSymbolExists.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-LGJm2H/CheckSymbolExists.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_4a5c0.a && /usr/bin/ar qc libcmTC_4a5c0.a  CMakeFiles/cmTC_4a5c0.dir/CheckSymbolExists.c.o && /usr/bin/ranlib libcmTC_4a5c0.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:171 (try_compile)"
+      - "/usr/share/cmake/Modules/CheckSymbolExists.cmake:99 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "cmake/OpusConfig.cmake:51 (check_symbol_exists)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for elf_aux_info"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-D4oTdf"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-D4oTdf"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_ELF_AUX_INFO"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-D4oTdf'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_036af
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_036af.dir/CheckSymbolExists.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-D4oTdf/CheckSymbolExists.c
+        FAILED: [code=1] CMakeFiles/cmTC_036af.dir/CheckSymbolExists.c.o 
+        /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_036af.dir/CheckSymbolExists.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-D4oTdf/CheckSymbolExists.c
+        /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-D4oTdf/CheckSymbolExists.c: In function 'main':
+        /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-D4oTdf/CheckSymbolExists.c:8:19: error: 'elf_aux_info' undeclared (first use in this function)
+            8 |   return ((int*)(&elf_aux_info))[argc];
+              |                   ^~~~~~~~~~~~
+        /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-D4oTdf/CheckSymbolExists.c:8:19: note: each undeclared identifier is reported only once for each function it appears in
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/CFeatureCheck.cmake:30 (try_compile)"
+      - "cmake/OpusFunctions.cmake:157 (c_feature_check)"
+      - "cmake/OpusConfig.cmake:65 (opus_supports_cpu_detection)"
+      - "CMakeLists.txt:11 (include)"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "COMPILE_CPU_INFO_BY_ASM_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_e3750
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_e3750.dir/cpu_info_by_asm.c.o -c /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake/cpu_info_by_asm.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_e3750.a && /usr/bin/ar qc libcmTC_e3750.a  CMakeFiles/cmTC_e3750.dir/cpu_info_by_asm.c.o && /usr/bin/ranlib libcmTC_e3750.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckIncludeFile.cmake:157 (try_compile)"
+      - "cmake/OpusFunctions.cmake:159 (check_include_file)"
+      - "cmake/OpusConfig.cmake:65 (opus_supports_cpu_detection)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for cpuid.h"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-2gDt73"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-2gDt73"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_CPUID_H"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-2gDt73'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_0fdd0
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_0fdd0.dir/CheckIncludeFile.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-2gDt73/CheckIncludeFile.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_0fdd0.a && /usr/bin/ar qc libcmTC_0fdd0.a  CMakeFiles/cmTC_0fdd0.dir/CheckIncludeFile.c.o && /usr/bin/ranlib libcmTC_0fdd0.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/CFeatureCheck.cmake:30 (try_compile)"
+      - "cmake/OpusFunctions.cmake:161 (c_feature_check)"
+      - "cmake/OpusConfig.cmake:65 (opus_supports_cpu_detection)"
+      - "CMakeLists.txt:11 (include)"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "COMPILE_CPU_INFO_BY_C_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_e6cc4
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_e6cc4.dir/cpu_info_by_c.c.o -c /home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake/cpu_info_by_c.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_e6cc4.a && /usr/bin/ar qc libcmTC_e6cc4.a  CMakeFiles/cmTC_e6cc4.dir/cpu_info_by_c.c.o && /usr/bin/ranlib libcmTC_e6cc4.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckIncludeFile.cmake:157 (try_compile)"
+      - "cmake/OpusFunctions.cmake:58 (check_include_file)"
+      - "cmake/OpusConfig.cmake:69 (opus_detect_sse)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for xmmintrin.h"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-w1JM70"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-w1JM70"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_XMMINTRIN_H"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-w1JM70'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_cc3e5
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_cc3e5.dir/CheckIncludeFile.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-w1JM70/CheckIncludeFile.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_cc3e5.a && /usr/bin/ar qc libcmTC_cc3e5.a  CMakeFiles/cmTC_cc3e5.dir/CheckIncludeFile.c.o && /usr/bin/ranlib libcmTC_cc3e5.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:46 (check_c_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:70 (check_flag)"
+      - "cmake/OpusConfig.cmake:69 (opus_detect_sse)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test SSE1_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-7HIp0c"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-7HIp0c"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "SSE1_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-7HIp0c'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_cf014
+        [1/2] /usr/bin/cc -DSSE1_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -msse -o CMakeFiles/cmTC_cf014.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-7HIp0c/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_cf014.a && /usr/bin/ar qc libcmTC_cf014.a  CMakeFiles/cmTC_cf014.dir/src.c.o && /usr/bin/ranlib libcmTC_cf014.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckIncludeFile.cmake:157 (try_compile)"
+      - "cmake/OpusFunctions.cmake:78 (check_include_file)"
+      - "cmake/OpusConfig.cmake:69 (opus_detect_sse)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for emmintrin.h"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-RiuYqN"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-RiuYqN"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_EMMINTRIN_H"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-RiuYqN'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_01df6
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_01df6.dir/CheckIncludeFile.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-RiuYqN/CheckIncludeFile.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_01df6.a && /usr/bin/ar qc libcmTC_01df6.a  CMakeFiles/cmTC_01df6.dir/CheckIncludeFile.c.o && /usr/bin/ranlib libcmTC_01df6.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:46 (check_c_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:89 (check_flag)"
+      - "cmake/OpusConfig.cmake:69 (opus_detect_sse)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test SSE2_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-ikWFjq"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-ikWFjq"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "SSE2_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-ikWFjq'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_6c153
+        [1/2] /usr/bin/cc -DSSE2_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -msse2 -o CMakeFiles/cmTC_6c153.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-ikWFjq/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_6c153.a && /usr/bin/ar qc libcmTC_6c153.a  CMakeFiles/cmTC_6c153.dir/src.c.o && /usr/bin/ranlib libcmTC_6c153.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckIncludeFile.cmake:157 (try_compile)"
+      - "cmake/OpusFunctions.cmake:97 (check_include_file)"
+      - "cmake/OpusConfig.cmake:69 (opus_detect_sse)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for smmintrin.h"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-sAKct1"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-sAKct1"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_SMMINTRIN_H"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-sAKct1'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_c3d6d
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_c3d6d.dir/CheckIncludeFile.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-sAKct1/CheckIncludeFile.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_c3d6d.a && /usr/bin/ar qc libcmTC_c3d6d.a  CMakeFiles/cmTC_c3d6d.dir/CheckIncludeFile.c.o && /usr/bin/ranlib libcmTC_c3d6d.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:46 (check_c_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:108 (check_flag)"
+      - "cmake/OpusConfig.cmake:69 (opus_detect_sse)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test SSE4_1_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-PRFTrX"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-PRFTrX"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "SSE4_1_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-PRFTrX'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_c954e
+        [1/2] /usr/bin/cc -DSSE4_1_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -msse4.1 -o CMakeFiles/cmTC_c954e.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-PRFTrX/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_c954e.a && /usr/bin/ar qc libcmTC_c954e.a  CMakeFiles/cmTC_c954e.dir/src.c.o && /usr/bin/ranlib libcmTC_c954e.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/CheckIncludeFile.cmake:157 (try_compile)"
+      - "cmake/OpusFunctions.cmake:116 (check_include_file)"
+      - "cmake/OpusConfig.cmake:69 (opus_detect_sse)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Looking for immintrin.h"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-jz4Wyv"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-jz4Wyv"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HAVE_IMMINTRIN_H"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-jz4Wyv'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_683f5
+        [1/2] /usr/bin/cc   -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99 -o CMakeFiles/cmTC_683f5.dir/CheckIncludeFile.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-jz4Wyv/CheckIncludeFile.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_683f5.a && /usr/bin/ar qc libcmTC_683f5.a  CMakeFiles/cmTC_683f5.dir/CheckIncludeFile.c.o && /usr/bin/ranlib libcmTC_683f5.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:46 (check_c_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:121 (check_flag)"
+      - "cmake/OpusConfig.cmake:69 (opus_detect_sse)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test AVX2_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-mXhIf5"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-mXhIf5"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "AVX2_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-mXhIf5'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_9358f
+        [1/2] /usr/bin/cc -DAVX2_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -mavx2 -o CMakeFiles/cmTC_9358f.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-mXhIf5/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_9358f.a && /usr/bin/ar qc libcmTC_9358f.a  CMakeFiles/cmTC_9358f.dir/src.c.o && /usr/bin/ranlib libcmTC_9358f.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:46 (check_c_compiler_flag)"
+      - "cmake/OpusConfig.cmake:89 (check_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test FAST_MATH_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-1ZPrcP"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-1ZPrcP"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "FAST_MATH_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-1ZPrcP'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_b1c51
+        [1/2] /usr/bin/cc -DFAST_MATH_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -ffast-math -o CMakeFiles/cmTC_b1c51.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-1ZPrcP/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_b1c51.a && /usr/bin/ar qc libcmTC_b1c51.a  CMakeFiles/cmTC_b1c51.dir/src.c.o && /usr/bin/ranlib libcmTC_b1c51.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:46 (check_c_compiler_flag)"
+      - "cmake/OpusConfig.cmake:90 (check_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test STACK_PROTECTOR_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-f3OLay"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-f3OLay"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "STACK_PROTECTOR_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-f3OLay'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_9b4b6
+        [1/2] /usr/bin/cc -DSTACK_PROTECTOR_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -fstack-protector-strong -o CMakeFiles/cmTC_9b4b6.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-f3OLay/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_9b4b6.a && /usr/bin/ar qc libcmTC_9b4b6.a  CMakeFiles/cmTC_9b4b6.dir/src.c.o && /usr/bin/ranlib libcmTC_9b4b6.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusFunctions.cmake:46 (check_c_compiler_flag)"
+      - "cmake/OpusConfig.cmake:91 (check_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test HIDDEN_VISIBILITY_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-m2LV3t"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-m2LV3t"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "HIDDEN_VISIBILITY_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-m2LV3t'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_4141c
+        [1/2] /usr/bin/cc -DHIDDEN_VISIBILITY_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -fvisibility=hidden -o CMakeFiles/cmTC_4141c.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-m2LV3t/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_4141c.a && /usr/bin/ar qc libcmTC_4141c.a  CMakeFiles/cmTC_4141c.dir/src.c.o && /usr/bin/ranlib libcmTC_4141c.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusConfig.cmake:114 (check_c_compiler_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test Wall_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-0GhAOq"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-0GhAOq"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "Wall_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-0GhAOq'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_b33dc
+        [1/2] /usr/bin/cc -DWall_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -Wall -o CMakeFiles/cmTC_b33dc.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-0GhAOq/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_b33dc.a && /usr/bin/ar qc libcmTC_b33dc.a  CMakeFiles/cmTC_b33dc.dir/src.c.o && /usr/bin/ranlib libcmTC_b33dc.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusConfig.cmake:114 (check_c_compiler_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test W_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-SVJXo2"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-SVJXo2"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "W_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-SVJXo2'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_004a9
+        [1/2] /usr/bin/cc -DW_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -W -o CMakeFiles/cmTC_004a9.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-SVJXo2/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_004a9.a && /usr/bin/ar qc libcmTC_004a9.a  CMakeFiles/cmTC_004a9.dir/src.c.o && /usr/bin/ranlib libcmTC_004a9.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusConfig.cmake:114 (check_c_compiler_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test Wstrictprototypes_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-7xMSEp"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-7xMSEp"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "Wstrictprototypes_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-7xMSEp'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_2c8e0
+        [1/2] /usr/bin/cc -DWstrictprototypes_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -Wstrict-prototypes -o CMakeFiles/cmTC_2c8e0.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-7xMSEp/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_2c8e0.a && /usr/bin/ar qc libcmTC_2c8e0.a  CMakeFiles/cmTC_2c8e0.dir/src.c.o && /usr/bin/ranlib libcmTC_2c8e0.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusConfig.cmake:114 (check_c_compiler_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test Wextra_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-8JTbs0"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-8JTbs0"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "Wextra_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-8JTbs0'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_b43b0
+        [1/2] /usr/bin/cc -DWextra_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -Wextra -o CMakeFiles/cmTC_b43b0.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-8JTbs0/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_b43b0.a && /usr/bin/ar qc libcmTC_b43b0.a  CMakeFiles/cmTC_b43b0.dir/src.c.o && /usr/bin/ranlib libcmTC_b43b0.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusConfig.cmake:114 (check_c_compiler_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test Wcastalign_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-HaoHy9"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-HaoHy9"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "Wcastalign_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-HaoHy9'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_29e32
+        [1/2] /usr/bin/cc -DWcastalign_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -Wcast-align -o CMakeFiles/cmTC_29e32.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-HaoHy9/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_29e32.a && /usr/bin/ar qc libcmTC_29e32.a  CMakeFiles/cmTC_29e32.dir/src.c.o && /usr/bin/ranlib libcmTC_29e32.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusConfig.cmake:114 (check_c_compiler_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test Wnestedexterns_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-GaDnIm"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-GaDnIm"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "Wnestedexterns_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-GaDnIm'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_b475d
+        [1/2] /usr/bin/cc -DWnestedexterns_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -Wnested-externs -o CMakeFiles/cmTC_b475d.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-GaDnIm/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_b475d.a && /usr/bin/ar qc libcmTC_b475d.a  CMakeFiles/cmTC_b475d.dir/src.c.o && /usr/bin/ranlib libcmTC_b475d.a && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:81 (try_compile)"
+      - "/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake/Modules/CheckCCompilerFlag.cmake:105 (cmake_check_compiler_flag)"
+      - "cmake/OpusConfig.cmake:114 (check_c_compiler_flag)"
+      - "CMakeLists.txt:11 (include)"
+    checks:
+      - "Performing Test Wshadow_SUPPORTED"
+    directories:
+      source: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-1fIHH4"
+      binary: "/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-1fIHH4"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -ffunction-sections -fdata-sections -fPIC -m64 -w"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/motmir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/opusic-sys-0.7.5/opus/cmake"
+    buildResult:
+      variable: "Wshadow_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-1fIHH4'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_6d2e6
+        [1/2] /usr/bin/cc -DWshadow_SUPPORTED  -ffunction-sections -fdata-sections -fPIC -m64 -w  -std=gnu99   -Wshadow -o CMakeFiles/cmTC_6d2e6.dir/src.c.o -c /home/motmir/repos/voip-test/target/debug/build/opusic-sys-462e378a2ca13464/out/build/CMakeFiles/CMakeScratch/TryCompile-1fIHH4/src.c
+        [2/2] : && /usr/bin/cmake -E rm -f libcmTC_6d2e6.a && /usr/bin/ar qc libcmTC_6d2e6.a  CMakeFiles/cmTC_6d2e6.dir/src.c.o && /usr/bin/ranlib libcmTC_6d2e6.a && :
+        
+      exitCode: 0
+...
